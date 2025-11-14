@@ -1,0 +1,62 @@
+﻿@page
+@model DailyLogSystem.Pages.IndexSuccessModel
+
+<div class="success-container">
+    <div class="alert-box">
+        <div class="checkmark">✔</div>
+        <h2>Success!</h2>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <p>@TempData["SuccessMessage"]</p>
+        }
+
+        <a href="/Index" class="btn">Back to Login</a>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #d4fcd4, #c2f0c2);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .success-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+
+    .alert-box {
+        background-color: #d1fae5; /* bg-green-100 */
+        border: 1px solid #34d399; /* border-green-400 */
+        color: #047857; /* text-green-700 */
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkmark {
+        font-size: 50px;
+        color: #047857;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 20px;
+        background-color: #2d6a4f;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn:hover {
+            background-color: #22543d;
+        }
+</style>

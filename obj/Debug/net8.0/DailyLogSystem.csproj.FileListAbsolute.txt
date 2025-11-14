@@ -1,0 +1,164 @@
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\appsettings.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.staticwebassets.runtime.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.staticwebassets.endpoints.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.exe
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.deps.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.runtimeconfig.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.pdb
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DnsClient.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\Snappier.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.csproj.AssemblyReference.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.AssemblyInfoInputs.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.AssemblyInfo.cs
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.csproj.CoreCompileInputs.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cs
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\scopedcss\bundle\DailyLogSystem.styles.css
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\scopedcss\projectbundle\DailyLogSystem.bundle.scp.css
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLog.7308C225.Up2Date
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\refint\DailyLogSystem.dll
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.pdb
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.genruntimeconfig.cache
+C:\Users\Nhadine\source\repos\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\ref\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\appsettings.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.staticwebassets.runtime.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.staticwebassets.endpoints.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.exe
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.deps.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.runtimeconfig.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.pdb
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\DnsClient.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\Snappier.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.csproj.AssemblyReference.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.AssemblyInfoInputs.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.AssemblyInfo.cs
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.csproj.CoreCompileInputs.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cs
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\scopedcss\bundle\DailyLogSystem.styles.css
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\scopedcss\projectbundle\DailyLogSystem.bundle.scp.css
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLog.7308C225.Up2Date
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\refint\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.pdb
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.genruntimeconfig.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\DailyLogSystem\obj\Debug\net8.0\ref\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\appsettings.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.staticwebassets.endpoints.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.staticwebassets.runtime.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.exe
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.deps.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.runtimeconfig.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DailyLogSystem.pdb
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\DnsClient.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\Snappier.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.csproj.AssemblyReference.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.AssemblyInfoInputs.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.AssemblyInfo.cs
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.csproj.CoreCompileInputs.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cs
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\scopedcss\bundle\DailyLogSystem.styles.css
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\scopedcss\projectbundle\DailyLogSystem.bundle.scp.css
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLog.7308C225.Up2Date
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\refint\DailyLogSystem.dll
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.pdb
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\DailyLogSystem.genruntimeconfig.cache
+C:\Users\Nhadine\Desktop\DailyLogSystem\obj\Debug\net8.0\ref\DailyLogSystem.dll
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.csproj.AssemblyReference.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.GeneratedMSBuildEditorConfig.editorconfig
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.AssemblyInfoInputs.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.AssemblyInfo.cs
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.csproj.CoreCompileInputs.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.MvcApplicationPartsAssemblyInfo.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.RazorAssemblyInfo.cs
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\appsettings.Development.json
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\appsettings.json
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.staticwebassets.runtime.json
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.staticwebassets.endpoints.json
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.exe
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.deps.json
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.runtimeconfig.json
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.dll
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DailyLogSystem.pdb
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\DnsClient.dll
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\MongoDB.Bson.dll
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\MongoDB.Driver.dll
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\SharpCompress.dll
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\Snappier.dll
+D:\DL Files\DailyLogSysem-main\bin\Debug\net8.0\ZstdSharp.dll
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\scopedcss\bundle\DailyLogSystem.styles.css
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\scopedcss\projectbundle\DailyLogSystem.bundle.scp.css
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\staticwebassets.build.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\staticwebassets.development.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLog.7308C225.Up2Date
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.dll
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\refint\DailyLogSystem.dll
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.pdb
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.genruntimeconfig.cache
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\ref\DailyLogSystem.dll

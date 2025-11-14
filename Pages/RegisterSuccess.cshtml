@@ -1,0 +1,61 @@
+﻿@page
+@model DailyLogSystem.Pages.RegisterSuccessModel
+@{
+    ViewData["Title"] = "Registration Success";
+}
+
+<div class="success-container">
+    <div class="card">
+        <div class="checkmark">✔</div>
+        <h2>Registration Successful!</h2>
+        <p>Your account has been created successfully.</p>
+        <p>Please check your email to continue your attendance.</p>
+        <a href="/Index" class="btn">Back to Login</a>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #d4fcd4, #c2f0c2);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .success-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+
+    .card {
+        background: #e8fce8;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .checkmark {
+        font-size: 50px;
+        color: #28a745;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 20px;
+        background-color: #2d6a4f;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn:hover {
+            background-color: #22543d;
+        }
+
+</style>
