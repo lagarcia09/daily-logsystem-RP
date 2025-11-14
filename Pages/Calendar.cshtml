@@ -1,0 +1,255 @@
+﻿@page
+@model DailyLogSystem.Pages.CalendarModel
+@{
+    ViewData["Title"] = "Calendar";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen" style="background-color:#5D866C;">
+
+    <!-- Top Navigation -->
+    <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;" class="shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+
+                <div class="text-3xl font-bold" style="color: #5D866C;">
+                    Instructor's TimeTracker
+                </div>
+
+                <div class="flex space-x-2">
+
+                    <!-- Back to Dashboard Button -->
+                    <a href="/Dashboard"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 shadow-lg font-semibold"
+                       style="background-color:#5D866C; color:#F5F5F0;">
+                        🏠 Back to Dashboard
+                    </a>
+
+                    <!-- Already in Calendar -->
+                    <button class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
+                            style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        📅 Calendar
+                    </button>
+
+                    <a href="/Records"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        📊 Records
+                    </a>
+
+                    <button onclick="logoutUser()"
+                            class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
+                            style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🚪 Logout
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="max-w-6xl mx-auto p-6">
+
+        <div class="rounded-2xl shadow-2xl p-8 text-center mb-8"
+             style="background-color:#F5F5F0; border:3px solid #E6D8C3;">
+            <h1 class="text-4xl font-bold" style="color:#5D866C;">📅 Work Hours Calendar</h1>
+            <p class="text-lg mt-1" style="color:#C2A68C;">View your daily work logs.</p>
+        </div>
+
+        <!-- Calendar Wrapper -->
+        <div class="bg-white rounded-2xl shadow-xl p-6"
+             style="border:3px solid #C2A68C;">
+
+            <div class="flex justify-between items-center mb-5">
+                <button onclick="prevMonth()" class="px-4 py-2 rounded-lg shadow"
+                        style="background-color:#E6D8C3; color:#5D866C;">
+                    ⬅
+                </button>
+
+                <h2 id="calendarMonth" class="text-3xl font-bold" style="color:#5D866C;"></h2>
+
+                <button onclick="nextMonth()" class="px-4 py-2 rounded-lg shadow"
+                        style="background-color:#E6D8C3; color:#5D866C;">
+                    ➡
+                </button>
+            </div>
+
+            <div class="grid grid-cols-7 gap-4 text-center font-semibold text-lg"
+                 style="color:#5D866C;">
+                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div>
+                <div>Thu</div><div>Fri</div><div>Sat</div>
+            </div>
+
+            <div id="calendarGrid" class="grid grid-cols-7 gap-4 mt-4"></div>
+
+        </div>
+    </div>
+
+    <!-- Daily Log Modal -->
+    <div id="dailyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl w-96" style="border:3px solid #C2A68C;">
+            <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Daily Work Report</h2>
+
+            <p id="modalDate" class="font-semibold mb-2"></p>
+            <p id="modalIn"></p>
+            <p id="modalOut"></p>
+            <p id="modalHours" class="font-bold mt-3"></p>
+
+            <button onclick="closeModal()"
+                    class="mt-4 px-4 py-2 rounded-lg shadow font-semibold"
+                    style="background-color:#5D866C; color:white;">
+                Close
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        let currentMonth = new Date();
+        let rawLogs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.WorkLogs));
+
+        // Normalize logs to avoid undefined issues
+        const logs = rawLogs.map(l => ({
+            date: (l.Date ?? l.date ?? "").split("T")[0],
+            timeIn: l.TimeIn ?? l.timeIn ?? null,
+            timeOut: l.TimeOut ?? l.timeOut ?? null,
+            totalHours: l.TotalHours ?? l.totalHours ?? "0"
+        }));
+
+        function loadCalendar() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+
+            document.getElementById("calendarMonth").innerText =
+                currentMonth.toLocaleString("en-US", { month: "long", year: "numeric" });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            let html = "";
+
+            for (let i = 0; i < firstDay; i++) {
+                html += `<div class="h-24 border rounded-xl"></div>`;
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${(month + 1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
+
+                const log = logs.find(l => l.date === dateStr);
+
+                let bgColor = "#F5F5F0";
+                let badge = "";
+
+                if (log) {
+                    if (log.timeIn && log.timeOut) {
+                        bgColor = "#b7d3c1"; // green
+                    } else if (log.timeIn && !log.timeOut) {
+                        bgColor = "#F6E58D"; // yellow
+                    } else if (!log.timeIn && log.timeOut) {
+                        bgColor = "#FFB3B3"; // red
+                    }
+
+                    badge = `
+                        <div class="mt-2 rounded-lg px-2 py-1 text-sm"
+                             style="background-color:#C2A68C; color:white;">
+                            ⏱ ${log.totalHours} hrs
+                        </div>
+                    `;
+                } else {
+                    badge = `<div class="text-xs mt-4" style="color:#C2A68C;">No Data</div>`;
+                }
+
+                html += `
+                    <div onclick="openModal('${dateStr}')"
+                         class="h-28 border rounded-xl p-2 cursor-pointer hover:scale-105 transition-all"
+                         style="background-color:${bgColor}; border:2px solid #E6D8C3;">
+                        <div class="font-bold" style="color:#5D866C;">${day}</div>
+                        ${badge}
+                    </div>
+                `;
+            }
+
+            document.getElementById("calendarGrid").innerHTML = html;
+        }
+
+        function nextMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            loadCalendar();
+        }
+
+        function prevMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            loadCalendar();
+        }
+
+        function openModal(dateStr) {
+            const log = logs.find(l => l.date === dateStr);
+
+            const modalDate = new Date(dateStr + "T00:00:00Z");
+            document.getElementById("modalDate").innerText =
+                "📅 " + formatDatePH(modalDate);
+
+            if (log) {
+                const timeInPH = log.timeIn ? toPHTime(log.timeIn) : null;
+                const timeOutPH = log.timeOut ? toPHTime(log.timeOut) : null;
+
+                document.getElementById("modalIn").innerText =
+                    "Time In: " + (timeInPH ? formatTimePH(timeInPH) : "No Time In");
+
+                document.getElementById("modalOut").innerText =
+                    "Time Out: " + (timeOutPH ? formatTimePH(timeOutPH) : "No Time Out");
+
+                document.getElementById("modalHours").innerText =
+                    "Total Hours: " + log.totalHours;
+            } else {
+                document.getElementById("modalIn").innerText = "No attendance recorded.";
+                document.getElementById("modalOut").innerText = "";
+                document.getElementById("modalHours").innerText = "";
+            }
+
+            document.getElementById("dailyModal").classList.remove("hidden");
+            document.getElementById("dailyModal").classList.add("flex");
+        }
+
+        function closeModal() {
+            document.getElementById("dailyModal").classList.add("hidden");
+            document.getElementById("dailyModal").classList.remove("flex");
+        }
+
+        // Converts UTC → PH time **accurately** (no manual +8)
+        function toPHTime(utcString) {
+            return new Date(utcString);
+        }
+
+        function formatDatePH(date) {
+            return date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                timeZone: "Asia/Manila"
+            });
+        }
+
+        function formatTimePH(date) {
+            return date.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+                timeZone: "Asia/Manila"
+            });
+        }
+
+        loadCalendar();
+    </script>
+
+
+
+</body>
+</html>

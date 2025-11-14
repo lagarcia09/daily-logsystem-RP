@@ -124,5 +124,19 @@ namespace DailyLogSystem.Services
             var admins = _database.GetCollection<Admin>("Admins");
             return await admins.Find(a => a.AdminId == adminId).FirstOrDefaultAsync();
         }
+
+        public async Task<List<TodayRecord>> GetAllRecordsByEmployeeAsync(string employeeId)
+        {
+            return await _records
+                .Find(r => r.EmployeeId == employeeId)
+                .SortBy(r => r.Date)
+                .ToListAsync();
+        }
+
+
+
+
+
+
     }
 }

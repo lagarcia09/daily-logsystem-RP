@@ -162,3 +162,4 @@ D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\refint\DailyLogSystem.dll
 D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.pdb
 D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.genruntimeconfig.cache
 D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\ref\DailyLogSystem.dll
+D:\DL Files\DailyLogSysem-main\obj\Debug\net8.0\DailyLogSystem.sourcelink.json
