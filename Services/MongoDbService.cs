@@ -21,6 +21,8 @@ namespace DailyLogSystem.Services
         private readonly IMongoCollection<Employee> _employees;
         private readonly IMongoCollection<TodayRecord> _records;
 
+
+
         public MongoDbService(IOptions<MongoDbSettings> options)
         {
             var settings = options.Value;
@@ -132,6 +134,18 @@ namespace DailyLogSystem.Services
                 .SortBy(r => r.Date)
                 .ToListAsync();
         }
+
+        public async Task<List<TodayRecord>> GetAllLogsAsync(string employeeId)
+        {
+            var filter = Builders<TodayRecord>.Filter.Eq(x => x.EmployeeId, employeeId);
+
+            return await _records
+                .Find(filter)
+                .SortByDescending(x => x.Date)
+                .ToListAsync();
+        }
+
+
 
 
 

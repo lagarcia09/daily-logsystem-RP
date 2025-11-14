@@ -2,8 +2,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuestPDF;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ------------------------------
+// Set QuestPDF license
+// ------------------------------
+QuestPDF.Settings.License = LicenseType.Community;
 
 // ------------------------------
 // Service Configuration
@@ -26,34 +33,35 @@ builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 builder.Services.AddSingleton<MongoDbService>();
 builder.Services.AddSingleton<EmailService>();
+builder.Services.AddSingleton<IPdfService, PdfService>();
 
 // ------------------------------
 // Build and Configure the App
 // ------------------------------
 var app = builder.Build();
 
-// ✅ Add error handling for production
+// Error handling for production
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
-// ✅ Enforce HTTPS
+// Enforce HTTPS
 app.UseHttpsRedirection();
 
-// ✅ Enable static files and routing
+// Enable static files and routing
 app.UseStaticFiles();
 app.UseRouting();
 
-// ✅ Enable session (important: place after UseRouting and before MapRazorPages)
+// Enable session (important: after UseRouting and before MapRazorPages)
 app.UseSession();
 
-// ✅ Authorization placeholder (for future admin/user restrictions)
+// Authorization placeholder
 app.UseAuthorization();
 
-// ✅ Map Razor Pages
+// Map Razor Pages
 app.MapRazorPages();
 
-// ✅ Run the application
+// Run the application
 app.Run();

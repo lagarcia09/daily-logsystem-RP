@@ -59,16 +59,24 @@ namespace DailyLogSystem.Pages
 
             // ---------- STATUS CALCULATION ----------
             var officeStart = TodayRecord.Date.Date.AddHours(8); // 8 AM
+            var officeEnd = TodayRecord.Date.Date.AddHours(17);  // 5 PM
 
-            if (TodayRecord.TimeIn.HasValue)
-            {
-                TodayRecord.Status =
-                    TodayRecord.TimeIn.Value > officeStart ? "LATE" : "ON TIME";
-            }
-            else
+            if (!TodayRecord.TimeIn.HasValue)
             {
                 TodayRecord.Status = "ABSENT";
             }
+            else
+            {
+                if (TodayRecord.TimeIn.Value > officeStart)
+                    TodayRecord.Status = "LATE";
+
+                else if (TodayRecord.TimeOut.HasValue && TodayRecord.TimeOut.Value < officeEnd)
+                    TodayRecord.Status = "UNDERTIME";
+
+                else
+                    TodayRecord.Status = "ON TIME";
+            }
+
 
             // ---------- SAFELY COMPUTE TOTAL HOURS ----------
             if (TodayRecord.TimeIn.HasValue && TodayRecord.TimeOut.HasValue)

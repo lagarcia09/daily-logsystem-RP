@@ -54,6 +54,18 @@
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.5.0, )"
+            },
+            "Newtonsoft.Json.Bson": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.7.4, )"
+            },
+            "QuestPDF.Markdown": {
+              "target": "Package",
+              "version": "[1.42.0, )"
             }
           },
           "imports": [
