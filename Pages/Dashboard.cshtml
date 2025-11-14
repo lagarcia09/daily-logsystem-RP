@@ -111,8 +111,43 @@
                             <div class="text-3xl font-bold mb-2" style="color: #5D866C;" id="totalHours">@Model.TodayRecord?.TotalHours </div>
                             <div class="text-sm" style="color: #C2A68C;">Total Hours</div>
                         </div>
+                        <!-- Attendance Status -->
+                        <div class="rounded-xl p-6" style="background-color: #C2A68C; border: 2px solid #5D866C;">
+                            <div class="text-3xl font-bold mb-2" style="color: #F5F5F0;">
+                                @Model.TodayRecord?.Status
+                            </div>
+                            <div class="text-sm" style="color: #E6D8C3;">Status</div>
+                        </div>
+
+                        <!-- Overtime Hours -->
+                        <div class="rounded-xl p-6" style="background-color: #5D866C; border: 2px solid #C2A68C;">
+                            <div class="text-3xl font-bold mb-2" style="color: #F5F5F0;">
+                                @Model.TodayRecord?.OvertimeHours
+                            </div>
+                            <div class="text-sm" style="color: #E6D8C3;">Overtime (hrs)</div>
+                        </div>
+
+
                     </div>
                 </div>
+                <!-- Documentation Upload -->
+                <div class="rounded-2xl p-8 mt-8" style="background-color: #F5F5F0; border: 2px solid #C2A68C;">
+                    <h3 class="text-xl font-semibold mb-4" style="color: #5D866C;">Upload Class Documentation</h3>
+
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="UploadDocs">
+                        <input type="file" name="files" multiple
+                               class="block w-full p-3 mb-4 border rounded-xl"
+                               style="border: 2px solid #C2A68C;" />
+
+                        <button type="submit"
+                                class="px-6 py-3 rounded-xl font-semibold shadow-lg"
+                                style="background-color: #5D866C; color: #F5F5F0;">
+                            📄 Upload Documents
+                        </button>
+                    </form>
+                </div>
+
+
             </div>
         </div>
     </div>

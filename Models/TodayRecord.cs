@@ -23,5 +23,9 @@ namespace DailyLogSystem.Models
 
         [BsonElement("TotalHours")]
         public string? TotalHours { get; set; }
+
+        public string Status { get; set; } = "";
+        public string OvertimeHours { get; set; } = "";
+
     }
 }
