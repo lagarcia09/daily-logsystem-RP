@@ -109,7 +109,7 @@ namespace DailyLogSystem.Pages
             var body = $@"
                 <h3>Hi {admin.FullName},</h3>
                 <p>You have successfully logged in to the Daily Log System.</p>
-                <p><a href='https://localhost:7102/AdminDashboard'>Go to Dashboard</a></p>
+                <p><a href='https://localhost:7102/AdminOverview'>Go to Dashboard</a></p>
                 <p>– Daily Log System Team</p>";
 
             _emailService.SendEmail(admin.Email, subject, body);

@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using DailyLogSystem.Models;
 using DailyLogSystem.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace DailyLogSystem.Pages
 {
-    public class RegisterModel : PageModel
+    public class EmployeeRegisterModel : PageModel
     {
         private readonly MongoDbService _mongoService;
         private readonly EmailService _emailService;
@@ -14,7 +15,7 @@ namespace DailyLogSystem.Pages
         [BindProperty]
         public Employee Input { get; set; } = new();
 
-        public RegisterModel(MongoDbService mongoService, EmailService emailService)
+        public EmployeeRegisterModel(MongoDbService mongoService, EmailService emailService)
         {
             _mongoService = mongoService ?? throw new ArgumentNullException(nameof(mongoService));
             _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
@@ -37,8 +38,9 @@ namespace DailyLogSystem.Pages
             Input.Password = Input.Password.Trim();
             Input.FullName = Input.FullName.Trim();
 
-            // ✅ Save to MongoDB
-            await _mongoService.CreateEmployeeAsync(Input);
+      
+            // Save to MongoDB
+            await _mongoService.AddEmployeeAsync(Input);
 
             // ✅ Send confirmation email with Employee ID
             var subject = "Registration Successful - Daily Log System";

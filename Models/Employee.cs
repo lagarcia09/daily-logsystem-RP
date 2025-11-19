@@ -23,5 +23,8 @@ namespace DailyLogSystem.Models
 
         // Login Credential
         public string Password { get; set; } = string.Empty;
+
+        public string Role { get; set; } = "Staff";
+        public bool IsActive { get; set; } = true;
     }
 }

@@ -1,0 +1,27 @@
+﻿@page
+@model DailyLogSystem.Pages.AdminReportsModel
+@{
+    ViewData["Title"] = "Reports & Analytics";
+    Layout = "AdminLayout";
+}
+
+<div class="max-w-6xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Reports & Analytics</h2>
+
+    <form method="post" asp-page-handler="ExportMonthly">
+        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg" style="background:#5D866C; color:white;">
+            📄 Export Monthly Report (PDF)
+        </button>
+    </form>
+
+    <form method="post" asp-page-handler="ExportExcel">
+        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg mt-4" style="background:#C2A68C; color:white;">
+            📊 Export Excel
+        </button>
+    </form>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        <canvas id="attendancePie"></canvas>
+        <canvas id="hoursBar"></canvas>
+    </div>
+</div>

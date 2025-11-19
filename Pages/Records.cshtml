@@ -40,11 +40,10 @@
                         📊 Records
                     </span>
 
-                    <a href="/Logout"
-                       class="px-6 py-3 rounded-xl font-semibold"
-                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C">
+                    <button onclick="logoutUser()" class="nav-btn px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
+                            style="background-color: #E6D8C3; color: #5D866C; border: 2px solid #C2A68C;">
                         🚪 Logout
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -97,12 +96,16 @@
                     📄 Export Monthly Report (PDF)
                 </button>
             </form>
-        </div>
 
-        <!-- CHARTS -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <canvas id="punctualityChart" height="150"></canvas>
-            <canvas id="workHoursChart" height="150"></canvas>
+            <!-- ✅ PIE CHARTS directly below summary -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-white rounded-xl shadow p-4">
+                    <canvas id="attendancePie" width="200" height="200"></canvas>
+                </div>
+                <div class="bg-white rounded-xl shadow p-4">
+                    <canvas id="hoursPie" width="200" height="200"></canvas>
+                </div>
+            </div>
         </div>
 
         <!-- ATTENDANCE TABLE -->
@@ -117,7 +120,6 @@
                         <th class="pb-3">Time In</th>
                         <th class="pb-3">Time Out</th>
                         <th class="pb-3">Hours</th>
-                        <th class="pb-3">Status</th>
                     </tr>
                 </thead>
 
@@ -129,7 +131,6 @@
                             <td>@(log.TimeIn?.ToString("hh:mm tt") ?? "-")</td>
                             <td>@(log.TimeOut?.ToString("hh:mm tt") ?? "-")</td>
                             <td>@log.TotalHours</td>
-                            <td>@log.Status</td>
                         </tr>
                     }
                 </tbody>
@@ -137,27 +138,46 @@
         </div>
 
     </div>
+
     <script>
-        // Convert Razor JSON to a safe JS string
-        const punctualityJson = '@(Model.PunctualityJson ?? "{}")'.replace(/&quot;/g, '"');
-        const workHoursJson = '@(Model.WorkHoursJson ?? "{}")'.replace(/&quot;/g, '"');
+        const attendanceJson = '@(Model.PunctualityJson ?? "{}")'.replace(/&quot;/g, '"');
+        const hoursJson = '@(Model.WorkHoursJson ?? "{}")'.replace(/&quot;/g, '"');
 
-        // Parse into JS objects
-        const punctualityData = JSON.parse(punctualityJson);
-        const hoursData = JSON.parse(workHoursJson);
+        const attendanceData = JSON.parse(attendanceJson);
+        const hoursData = JSON.parse(hoursJson);
 
-        new Chart(document.getElementById("punctualityChart"), {
-            type: "line",
-            data: punctualityData
+        new Chart(document.getElementById("attendancePie"), {
+            type: "pie",
+            data: attendanceData,
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: "#5D866C",
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
         });
 
-        new Chart(document.getElementById("workHoursChart"), {
-            type: "line",
-            data: hoursData
+        new Chart(document.getElementById("hoursPie"), {
+            type: "pie",
+            data: hoursData,
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: "#5D866C",
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
         });
     </script>
-
-
 
 </body>
 </html>

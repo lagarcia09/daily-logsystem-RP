@@ -1,0 +1,43 @@
+﻿@page
+@model DailyLogSystem.Pages.AdminEmployeesModel
+@{
+    ViewData["Title"] = "Employee Management";
+    Layout = "AdminLayout";
+}
+
+<div class="max-w-6xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Employee Management</h2>
+
+    <form method="post" asp-page-handler="AddEmployee" class="mb-6">
+        <input type="text" name="FullName" placeholder="Full Name" class="p-3 border rounded-xl w-full mb-2" />
+        <input type="text" name="Email" placeholder="Email" class="p-3 border rounded-xl w-full mb-2" />
+        <select name="Role" class="p-3 border rounded-xl w-full mb-2">
+            <option>Instructor</option>
+            <option>Staff</option>
+            <option>Admin</option>
+        </select>
+        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg" style="background:#5D866C; color:#F5F5F0;">➕ Add Employee</button>
+    </form>
+
+    <table class="w-full text-left">
+        <thead><tr class="border-b"><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
+        <tbody>
+            @foreach (var emp in Model.Employees)
+            {
+                <tr class="border-b">
+                    <td>@emp.FullName</td>
+                    <td>@emp.Email</td>
+                    <td>@emp.Role</td>
+                    <td class="flex gap-2">
+                        <form method="post" asp-page-handler="DeactivateEmployee" asp-route-id="@emp.EmployeeId">
+                            <button class="px-4 py-2 rounded-lg" style="background:#C2A68C; color:white;">Deactivate</button>
+                        </form>
+                        <form method="post" asp-page-handler="ResetPassword" asp-route-id="@emp.EmployeeId">
+                            <button class="px-4 py-2 rounded-lg" style="background:#5D866C; color:white;">Reset Password</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

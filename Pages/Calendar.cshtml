@@ -116,12 +116,12 @@
         let currentMonth = new Date();
         let rawLogs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.WorkLogs));
 
-        // Normalize logs to avoid undefined issues
         const logs = rawLogs.map(l => ({
             date: (l.Date ?? l.date ?? "").split("T")[0],
             timeIn: l.TimeIn ?? l.timeIn ?? null,
             timeOut: l.TimeOut ?? l.timeOut ?? null,
-            totalHours: l.TotalHours ?? l.totalHours ?? "0"
+            totalHours: l.TotalHours ?? l.totalHours ?? "0",
+            status: l.Status ?? l.status ?? ""   // ✅ include status
         }));
 
         function loadCalendar() {
@@ -141,27 +141,31 @@
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${(month + 1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
-
                 const log = logs.find(l => l.date === dateStr);
 
                 let bgColor = "#F5F5F0";
                 let badge = "";
 
                 if (log) {
-                    if (log.timeIn && log.timeOut) {
-                        bgColor = "#b7d3c1"; // green
-                    } else if (log.timeIn && !log.timeOut) {
-                        bgColor = "#F6E58D"; // yellow
-                    } else if (!log.timeIn && log.timeOut) {
-                        bgColor = "#FFB3B3"; // red
-                    }
+                    if (log.status === "ABSENT") {
+                        bgColor = "#FFB3B3"; // red for absent
+                        badge = `<div class="text-xs mt-4 font-bold" style="color:#C2A68C;">ABSENT</div>`;
+                    } else {
+                        if (log.timeIn && log.timeOut) {
+                            bgColor = "#b7d3c1";
+                        } else if (log.timeIn && !log.timeOut) {
+                            bgColor = "#F6E58D";
+                        } else if (!log.timeIn && log.timeOut) {
+                            bgColor = "#FFB3B3";
+                        }
 
-                    badge = `
-                        <div class="mt-2 rounded-lg px-2 py-1 text-sm"
-                             style="background-color:#C2A68C; color:white;">
-                            ⏱ ${log.totalHours} hrs
-                        </div>
-                    `;
+                        badge = `
+                            <div class="mt-2 rounded-lg px-2 py-1 text-sm"
+                                 style="background-color:#C2A68C; color:white;">
+                                ⏱ ${log.totalHours} hrs
+                            </div>
+                        `;
+                    }
                 } else {
                     badge = `<div class="text-xs mt-4" style="color:#C2A68C;">No Data</div>`;
                 }
@@ -179,6 +183,45 @@
             document.getElementById("calendarGrid").innerHTML = html;
         }
 
+        function openModal(dateStr) {
+            const log = logs.find(l => l.date === dateStr);
+            const modalDate = new Date(dateStr + "T00:00:00Z");
+
+            document.getElementById("modalDate").innerText =
+                "📅 " + formatDatePH(modalDate);
+
+            if (log) {
+                if (log.status === "ABSENT") {
+                    document.getElementById("modalIn").innerText = "Marked ABSENT";
+                    document.getElementById("modalOut").innerText = "";
+                    document.getElementById("modalHours").innerText = "";
+                } else {
+                    const timeInPH = log.timeIn ? toPHTime(log.timeIn) : null;
+                    const timeOutPH = log.timeOut ? toPHTime(log.timeOut) : null;
+
+                    document.getElementById("modalIn").innerText =
+                        "Time In: " + (timeInPH ? formatTimePH(timeInPH) : "No Time In");
+
+                    document.getElementById("modalOut").innerText =
+                        "Time Out: " + (timeOutPH ? formatTimePH(timeOutPH) : "No Time Out");
+
+                    document.getElementById("modalHours").innerText =
+                        "Total Hours: " + log.totalHours;
+                }
+            } else {
+                document.getElementById("modalIn").innerText = "No attendance recorded.";
+                document.getElementById("modalOut").innerText = "";
+                document.getElementById("modalHours").innerText = "";
+            }
+
+            document.getElementById("dailyModal").classList.remove("hidden");
+            document.getElementById("dailyModal").classList.add("flex");
+        }
+                function closeModal() {
+            document.getElementById("dailyModal").classList.add("hidden");
+            document.getElementById("dailyModal").classList.remove("flex");
+        }
+
         function nextMonth() {
             currentMonth.setMonth(currentMonth.getMonth() + 1);
             loadCalendar();
@@ -189,41 +232,7 @@
             loadCalendar();
         }
 
-        function openModal(dateStr) {
-            const log = logs.find(l => l.date === dateStr);
 
-            const modalDate = new Date(dateStr + "T00:00:00Z");
-            document.getElementById("modalDate").innerText =
-                "📅 " + formatDatePH(modalDate);
-
-            if (log) {
-                const timeInPH = log.timeIn ? toPHTime(log.timeIn) : null;
-                const timeOutPH = log.timeOut ? toPHTime(log.timeOut) : null;
-
-                document.getElementById("modalIn").innerText =
-                    "Time In: " + (timeInPH ? formatTimePH(timeInPH) : "No Time In");
-
-                document.getElementById("modalOut").innerText =
-                    "Time Out: " + (timeOutPH ? formatTimePH(timeOutPH) : "No Time Out");
-
-                document.getElementById("modalHours").innerText =
-                    "Total Hours: " + log.totalHours;
-            } else {
-                document.getElementById("modalIn").innerText = "No attendance recorded.";
-                document.getElementById("modalOut").innerText = "";
-                document.getElementById("modalHours").innerText = "";
-            }
-
-            document.getElementById("dailyModal").classList.remove("hidden");
-            document.getElementById("dailyModal").classList.add("flex");
-        }
-
-        function closeModal() {
-            document.getElementById("dailyModal").classList.add("hidden");
-            document.getElementById("dailyModal").classList.remove("flex");
-        }
-
-        // Converts UTC → PH time **accurately** (no manual +8)
         function toPHTime(utcString) {
             return new Date(utcString);
         }
@@ -246,8 +255,16 @@
             });
         }
 
+        function logoutUser() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "/Logout";
+            }
+        }
+
         loadCalendar();
+
     </script>
+
 
 
 

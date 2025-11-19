@@ -1,0 +1,41 @@
+﻿@page
+@model DailyLogSystem.Pages.AdminAttendanceModel
+@{
+    ViewData["Title"] = "Attendance Oversight";
+    Layout = "AdminLayout";
+}
+
+<div class="max-w-6xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Attendance Oversight</h2>
+
+    <form method="get" class="mb-4">
+        <input type="text" name="SearchName" placeholder="Search by name" class="p-3 border rounded-xl w-full mb-2" />
+        <select name="StatusFilter" class="p-3 border rounded-xl w-full mb-2">
+            <option value="">All</option>
+            <option>ABSENT</option>
+            <option>LATE</option>
+            <option>OVERTIME</option>
+        </select>
+        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg" style="background:#5D866C; color:#F5F5F0;">🔍 Filter</button>
+    </form>
+
+    <table class="w-full text-left">
+        <thead><tr class="border-b"><th>Date</th><th>Employee</th><th>Status</th><th>Hours</th><th>Actions</th></tr></thead>
+        <tbody>
+            @foreach (var log in Model.AttendanceLogs)
+            {
+                <tr class="border-b">
+                    <td>@log.Date.ToString("MMM dd, yyyy")</td>
+                    <td>@log.EmployeeName</td>
+                    <td>@log.Status</td>
+                    <td>@log.TotalHours</td>
+                    <td>
+                        <form method="post" asp-page-handler="OverrideLog" asp-route-id="@log.Id">
+                            <button class="px-4 py-2 rounded-lg" style="background:#C2A68C; color:white;">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Admin</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen" style="background-color:#5D866C;">
+
+    <!-- ADMIN NAVIGATION -->
+    <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;"
+         class="shadow-lg">
+
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+
+                <!-- Title -->
+                <div class="text-3xl font-bold" style="color:#5D866C;">
+                    Admin Dashboard
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex space-x-2">
+
+                    <a asp-page="/AdminOverview"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#5D866C; color:#F5F5F0; border:2px solid #C2A68C;">
+                        📊 Overview
+                    </a>
+
+                    <a asp-page="/AdminEmployees"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        👥 Employees
+                    </a>
+
+                    <a asp-page="/AdminAttendance"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🕒 Attendance
+                    </a>
+
+                    <a asp-page="/AdminReports"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        📄 Reports
+                    </a>
+
+                    <a href="/Index"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🚪 Logout
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE BODY -->
+    <div class="max-w-7xl mx-auto p-8">
+        @RenderBody()
+    </div>
+
+</body>
+</html>

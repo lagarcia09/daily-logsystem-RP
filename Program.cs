@@ -35,6 +35,15 @@ builder.Services.AddSingleton<MongoDbService>();
 builder.Services.AddSingleton<EmailService>();
 builder.Services.AddSingleton<IPdfService, PdfService>();
 
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
 // ------------------------------
 // Build and Configure the App
 // ------------------------------

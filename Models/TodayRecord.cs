@@ -26,6 +26,9 @@ namespace DailyLogSystem.Models
 
         public string Status { get; set; } = "";
         public string OvertimeHours { get; set; } = "";
+        public string UndertimeHours { get; set; } = "";
+
+        public string? EmployeeName { get; set; }
 
     }
 }
