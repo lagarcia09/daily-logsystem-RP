@@ -16,6 +16,7 @@ namespace DailyLogSystem.Pages
 
         [BindProperty]
         public Admin AdminInput { get; set; } = new();
+        public string? DeactivatedMessage { get; set; }
 
         public string? ErrorMessage { get; set; }
 
@@ -27,11 +28,12 @@ namespace DailyLogSystem.Pages
 
         public void OnGet()
         {
-            // Optional: clear any existing session
+            
             HttpContext.Session.Clear();
         }
 
-        // ✅ EMPLOYEE LOGIN
+        // emplyoee login dito
+
         public async Task<IActionResult> OnPostEmployeeLoginAsync()
         {
             if (!ModelState.IsValid)
@@ -46,6 +48,7 @@ namespace DailyLogSystem.Pages
                 return Page();
             }
 
+
             var employee = await _mongoService.GetByEmployeeIdAsync(empId);
 
             if (employee == null)
@@ -59,11 +62,18 @@ namespace DailyLogSystem.Pages
                 ErrorMessage = "Incorrect password.";
                 return Page();
             }
+            if (!employee.IsActive)
+            {
+                ModelState.AddModelError(string.Empty, "Your account is deactivated. Please contact admin.");
+                return Page();
+            }
 
-            // ✅ Store session
+
+
+
             HttpContext.Session.SetString("UserEmployeeId", employee.EmployeeId);
 
-            // ✅ Send login notification
+            //email notif to login
             var subject = "Login Notification - Daily Log System";
             var body = $@"
                 <h3>Hi {employee.FullName},</h3>
@@ -73,12 +83,11 @@ namespace DailyLogSystem.Pages
 
             _emailService.SendEmail(employee.Email, subject, body);
 
-            // ✅ Redirect to Employee Dashboard
             TempData["SuccessMessage"] = "Login successful!";
             return RedirectToPage("/IndexSuccess");
         }
 
-        // ✅ ADMIN LOGIN
+        //admin login
         public async Task<IActionResult> OnPostAdminLoginAsync()
         {
             if (!ModelState.IsValid)
@@ -101,7 +110,7 @@ namespace DailyLogSystem.Pages
                 return Page();
             }
 
-            // ✅ Store admin session
+          
             HttpContext.Session.SetString("AdminId", admin.AdminId);
             HttpContext.Session.SetString("AdminName", admin.FullName);
 
@@ -114,7 +123,7 @@ namespace DailyLogSystem.Pages
 
             _emailService.SendEmail(admin.Email, subject, body);
 
-            // ✅ Redirect to Admin Dashboard
+           
             return RedirectToPage("/IndexSuccess");
         }
     }

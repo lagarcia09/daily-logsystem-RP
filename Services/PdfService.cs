@@ -40,7 +40,7 @@ namespace DailyLogSystem.Services
             return Task.FromResult(doc.GeneratePdf());
         }
 
-        // Employee daily report
+        // employee report
         public Task<byte[]> GenerateDailyReportAsync(Employee employee, TodayRecord record)
         {
             var doc = Document.Create(container =>
@@ -64,7 +64,7 @@ namespace DailyLogSystem.Services
             return Task.FromResult(doc.GeneratePdf());
         }
 
-        // ✅ Admin monthly report overload
+        // admin report 
         public Task<byte[]> GenerateMonthlyReportAsync(List<TodayRecord> logs, int month, int year)
         {
             var doc = Document.Create(container =>
@@ -88,7 +88,7 @@ namespace DailyLogSystem.Services
             return Task.FromResult(doc.GeneratePdf());
         }
 
-        // ---------------- Helpers ----------------
+       
 
         void ComposeHeader(IContainer container)
         {
@@ -131,11 +131,11 @@ namespace DailyLogSystem.Services
                 {
                     table.ColumnsDefinition(columns =>
                     {
-                        columns.ConstantColumn(80); // Date
-                        columns.ConstantColumn(80); // Time In
-                        columns.ConstantColumn(80); // Time Out
-                        columns.ConstantColumn(70); // Hours
-                        columns.RelativeColumn();   // Status
+                        columns.ConstantColumn(80); 
+                        columns.ConstantColumn(80); 
+                        columns.ConstantColumn(80); 
+                        columns.ConstantColumn(70); 
+                        columns.RelativeColumn();   
                     });
 
                     table.Header(header =>
@@ -202,12 +202,12 @@ namespace DailyLogSystem.Services
                 {
                     table.ColumnsDefinition(columns =>
                     {
-                        columns.ConstantColumn(80); // Date
-                        columns.ConstantColumn(100); // EmployeeId
-                        columns.ConstantColumn(80); // Time In
-                        columns.ConstantColumn(80); // Time Out
-                        columns.ConstantColumn(70); // Hours
-                        columns.RelativeColumn();   // Status
+                        columns.ConstantColumn(80); 
+                        columns.ConstantColumn(100); 
+                        columns.ConstantColumn(80); 
+                        columns.ConstantColumn(80);
+                        columns.ConstantColumn(70); 
+                        columns.RelativeColumn();   
                     });
 
                     table.Header(header =>

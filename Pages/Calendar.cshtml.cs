@@ -23,7 +23,7 @@ namespace DailyLogSystem.Pages
 
             if (string.IsNullOrEmpty(userId))
             {
-                // User not logged in → redirect to login
+               
                 Response.Redirect("/Index");
                 return;
             }

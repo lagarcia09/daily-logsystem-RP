@@ -9,7 +9,7 @@
 <main class="min-h-screen flex items-center justify-center font-sans" style="background-color: #BBC863;">
     <div class="flex bg-[#E8FFD7]/90 rounded-2xl shadow-2xl overflow-hidden border border-[#5E936C] w-full max-w-5xl">
 
-        <!-- LEFT SIDE -->
+       
         <div class="w-full md:w-1/2 p-10 flex flex-col justify-center">
 
             <div class="text-center mb-8">
@@ -17,7 +17,7 @@
                 <p class="text-gray-600">Please log in to continue.</p>
             </div>
 
-            <!-- Tabs -->
+           
             <div class="flex justify-center mb-6">
                 <button id="employeeTab"
                         class="w-1/2 py-2 font-semibold text-white bg-[#3E5F44] rounded-l-lg hover:bg-[#2A4230] transition">
@@ -34,8 +34,16 @@
                 <p class="text-red-600 text-center mb-4">@Model.ErrorMessage</p>
             }
 
-            <!-- EMPLOYEE FORM -->
+            @if (!string.IsNullOrEmpty(Model.DeactivatedMessage))
+            {
+                <p class="text-red-700 text-center mb-4 font-semibold">@Model.DeactivatedMessage</p>
+            }
+
+
+            <!-- employee login form-->
             <form id="employeeForm" method="post" asp-page-handler="EmployeeLogin" class="space-y-6">
+                <div asp-validation-summary="All"
+                     class="text-red-600 text-center mb-4 text-sm"></div>
                 <div>
                     <label asp-for="EmployeeInput.EmployeeId" class="block text-sm font-medium text-gray-700 mb-1">Employee ID *</label>
                     <input asp-for="EmployeeInput.EmployeeId" type="text"
@@ -80,7 +88,7 @@
                 </p>
             </form>
 
-            <!-- ADMIN FORM -->
+            <!-- admin login form-->
             <form id="adminForm" method="post" asp-page-handler="AdminLogin" class="hidden space-y-6">
                 <div>
                     <label asp-for="AdminInput.AdminId" class="block text-sm font-medium text-gray-700 mb-1">Admin ID *</label>
@@ -126,8 +134,8 @@
                 </p>
             </form>
 
-        </div> <!-- END LEFT SIDE -->
-        <!-- RIGHT SIDE -->
+        </div> 
+        
         <div class="hidden md:flex w-3/5 relative overflow-hidden">
             <img src="/images/bg-main.gif" class="absolute inset-0 w-[120%] h-full object-cover object-[100%_center] rounded-r-2xl" />
             <div class="absolute inset-0 bg-black/10"></div>
@@ -137,14 +145,14 @@
             </div>
         </div>
 
-    </div> <!-- END MAIN CONTAINER -->
+    </div> 
 </main>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        // TAB SWITCHING
+        
         const empTab = document.getElementById('employeeTab');
         const adminTab = document.getElementById('adminTab');
         const empForm = document.getElementById('employeeForm');
@@ -168,7 +176,7 @@
             empForm.classList.add('hidden');
         });
 
-        // Employee toggle
+       
         const empPwd = document.getElementById("empPassword");
         const toggleEmp = document.getElementById("toggleEmpPass");
         toggleEmp.onclick = () => {
@@ -176,7 +184,7 @@
             toggleEmp.textContent = empPwd.type === "password" ? "Show" : "Hide";
         };
 
-        // Admin toggle
+        
         const adminPwd = document.getElementById("adminPassword");
         const toggleAdmin = document.getElementById("toggleAdminPass");
         toggleAdmin.onclick = () => {

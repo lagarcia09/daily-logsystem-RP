@@ -13,7 +13,7 @@ namespace DailyLogSystem.Pages
         public string EmployeeId { get; set; } = "";
 
         [BindProperty]
-        public string EmployeeName { get; set; } = "";
+        public string FullName { get; set; } = "";
 
 
 
@@ -28,7 +28,7 @@ namespace DailyLogSystem.Pages
         {
             var currentUserId = HttpContext.Session.GetString("UserEmployeeId");
 
-            // ❌ Not logged in or session expired
+            
             if (string.IsNullOrEmpty(currentUserId))
             {
                 HttpContext.Session.Clear();
@@ -36,7 +36,7 @@ namespace DailyLogSystem.Pages
                 return;
             }
 
-            // ❌ Prevent accessing another user's dashboard via browser link
+           
             var emp = await _mongoService.GetByEmployeeIdAsync(currentUserId);
 
             if (emp == null)
@@ -48,14 +48,12 @@ namespace DailyLogSystem.Pages
 
 
             EmployeeId = emp.EmployeeId;
-            EmployeeName = emp.FullName;
+            FullName = emp.FullName;
 
             TodayRecord = await _mongoService.GetTodayRecordAsync(emp.EmployeeId);
 
             if (TodayRecord == null)
-                return; // Prevents null dereference
-
-            // ---------- TIMEZONE FIX ----------
+                return; 
             var phTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
 
             TodayRecord.Date = TimeZoneInfo.ConvertTimeFromUtc(TodayRecord.Date, phTimeZone);
@@ -67,12 +65,12 @@ namespace DailyLogSystem.Pages
                 TodayRecord.TimeOut = TimeZoneInfo.ConvertTimeFromUtc(TodayRecord.TimeOut.Value, phTimeZone);
 
             
-            // ---------- STATUS + HOURS BASED ON NEW RULES ----------
+          
 
-            var officeStart = TodayRecord.Date.Date.AddHours(8); // 8 AM
-            var officeEnd = TodayRecord.Date.Date.AddHours(17);  // 5 PM
+            var officeStart = TodayRecord.Date.Date.AddHours(8); 
+            var officeEnd = TodayRecord.Date.Date.AddHours(17);  
 
-            // No Time-In = absent
+            
             if (!TodayRecord.TimeIn.HasValue)
             {
                 TodayRecord.Status = "ABSENT";
@@ -83,7 +81,7 @@ namespace DailyLogSystem.Pages
             {
                 var timeIn = TodayRecord.TimeIn.Value;
 
-                // (1) CHECK 2-HOUR LATE = ABSENT RULE
+               
                 var lateDuration = timeIn - officeStart;
 
                 if (lateDuration.TotalHours >= 2)
@@ -94,22 +92,22 @@ namespace DailyLogSystem.Pages
                 }
                 else
                 {
-                    // NORMAL CASE (Not 2 hours late)
+                    
                     if (timeIn > officeStart)
                         TodayRecord.Status = "LATE";
                     else
                         TodayRecord.Status = "ON TIME";
 
-                    // If Time-Out exists, compute hours
+                   
                     if (TodayRecord.TimeOut.HasValue)
                     {
                         var timeOut = TodayRecord.TimeOut.Value;
 
-                        // Compute total worked hours
+                        
                         var total = timeOut - timeIn;
                         TodayRecord.TotalHours = total.TotalHours.ToString("0.00");
 
-                        // (A) OVERTIME — TimeOut AFTER 5:00 PM
+                        
                         if (timeOut > officeEnd)
                         {
                             var overtime = timeOut - officeEnd;
@@ -117,7 +115,7 @@ namespace DailyLogSystem.Pages
                             TodayRecord.UndertimeHours = "0";
                             TodayRecord.Status = "OVERTIME";
                         }
-                        // (B) UNDERTIME — TimeOut BEFORE 5:00 PM
+                        
                         else if (timeOut < officeEnd)
                         {
                             var undertime = officeEnd - timeOut;
@@ -125,17 +123,17 @@ namespace DailyLogSystem.Pages
                             TodayRecord.OvertimeHours = "0";
                             TodayRecord.Status = "UNDERTIME";
                         }
-                        // (C) EXACT 5:00 PM — No overtime or undertime
+                       
                         else
                         {
                             TodayRecord.OvertimeHours = "0";
                             TodayRecord.UndertimeHours = "0";
-                            // Keep ON TIME / LATE status from time-in
+                           
                         }
                     }
                     else
                     {
-                        // No TimeOut yet
+                        
                         TodayRecord.TotalHours = "0";
                         TodayRecord.OvertimeHours = "0";
                         TodayRecord.UndertimeHours = "0";
@@ -143,7 +141,7 @@ namespace DailyLogSystem.Pages
                 }
             }
 
-            // ✅ Save computed status/hours back to MongoDB
+            
             await _mongoService.UpdateTodayRecordStatusAsync(emp.EmployeeId, TodayRecord);
 
         }
@@ -153,7 +151,7 @@ namespace DailyLogSystem.Pages
 
         public async Task<IActionResult> OnPostAsync(string action)
         {
-            // ✅ Use correct session variable
+            
             var currentUserId = HttpContext.Session.GetString("UserEmployeeId");
             if (string.IsNullOrEmpty(currentUserId))
                 return RedirectToPage("/Index");
@@ -164,13 +162,13 @@ namespace DailyLogSystem.Pages
 
             var phTime = GetPhilippineTime();
 
-            // ✅ Record attendance
+           
             if (action == "TimeIn")
                 await _mongoService.RecordTimeInAsync(emp.EmployeeId, phTime);
             else if (action == "TimeOut")
                 await _mongoService.RecordTimeOutAsync(emp.EmployeeId, phTime);
 
-            // ✅ Refresh the same page (stay on dashboard)
+            
             return RedirectToPage();
         }
 

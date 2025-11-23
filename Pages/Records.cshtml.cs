@@ -37,7 +37,7 @@ namespace DailyLogSystem.Pages
                 return;
             }
 
-            // Fetch logs
+           
             Logs = await _mongoService.GetAllLogsAsync(id);
 
             var ph = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
@@ -59,7 +59,7 @@ namespace DailyLogSystem.Pages
                 .Where(l => l.Date.Month == now.Month && l.Date.Year == now.Year)
                 .ToList();
 
-            // ✅ Worked days = logs with TimeIn and not marked ABSENT
+           
             TotalWorkedDays = currentMonthLogs.Count(l => l.TimeIn.HasValue && l.Status != "ABSENT");
 
             int totalWorkingDays = Enumerable.Range(1, DateTime.DaysInMonth(now.Year, now.Month))
@@ -69,11 +69,11 @@ namespace DailyLogSystem.Pages
                             d.DayOfWeek != DayOfWeek.Sunday)
                 .Count();
 
-            // ✅ Absences = either explicitly marked ABSENT or no record at all
+          
             AbsencesThisMonth = currentMonthLogs.Count(l => l.Status == "ABSENT" || (!l.TimeIn.HasValue && !l.TimeOut.HasValue));
             AbsencesThisMonth += Math.Max(0, totalWorkingDays - currentMonthLogs.Count);
 
-            // Insert ABSENT rows for missing days
+           
             foreach (var day in Enumerable.Range(1, DateTime.DaysInMonth(now.Year, now.Month)))
             {
                 var date = new DateTime(now.Year, now.Month, day);
@@ -105,7 +105,7 @@ namespace DailyLogSystem.Pages
 
             foreach (var l in currentMonthLogs)
             {
-                // ✅ Skip absent records entirely
+               
                 if (l.Status == "ABSENT") continue;
 
                 if (l.TimeIn.HasValue && l.TimeOut.HasValue)
@@ -131,7 +131,7 @@ namespace DailyLogSystem.Pages
                 ? Math.Round(((double)TotalWorkedDays / totalWorkingDays) * 100, 2)
                 : 0;
 
-            // ✅ Pie chart JSONs
+          
             PunctualityJson = JsonSerializer.Serialize(new
             {
                 labels = new[] { "Worked Days", "Absences" },

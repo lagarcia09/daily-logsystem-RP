@@ -19,7 +19,6 @@ namespace DailyLogSystem.Services
             if (string.IsNullOrWhiteSpace(toEmail))
                 throw new ArgumentException("Recipient email cannot be null or empty.", nameof(toEmail));
 
-            // ✅ Read values safely from appsettings.json
             var fromEmail = _config["EmailSettings:FromEmail"]
                             ?? throw new InvalidOperationException("FromEmail is not configured.");
             var password = _config["EmailSettings:Password"]
@@ -51,6 +50,12 @@ namespace DailyLogSystem.Services
             {
                 throw new InvalidOperationException("Failed to send email. Check SMTP configuration or credentials.", ex);
             }
+        }
+
+        // ⬇⬇⬇ ADD THIS NEW METHOD BELOW ⬇⬇⬇
+        public async Task SendEmailAsync(string toEmail, string subject, string body)
+        {
+            await Task.Run(() => SendEmail(toEmail, subject, body));
         }
     }
 }

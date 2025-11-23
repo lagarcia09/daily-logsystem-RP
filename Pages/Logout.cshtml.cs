@@ -7,10 +7,10 @@ namespace DailyLogSystem.Pages
     {
         public IActionResult OnGet()
         {
-            // Clear session completely
+            
             HttpContext.Session.Clear();
 
-            // Redirect to login/index page
+           
             return RedirectToPage("/Index");
         }
     }

@@ -34,9 +34,13 @@ namespace DailyLogSystem.Services
             _admins = database.GetCollection<Admin>(settings.AdminCollectionName);
         }
 
-        // === EMPLOYEE FUNCTIONS ===
-        public async Task<List<Employee>> GetAllEmployeesAsync() =>
-            await _employees.Find(_ => true).ToListAsync();
+        // ============================================================
+        // EMPLOYEE METHODS
+        // ============================================================
+        public async Task<List<Employee>> GetAllEmployeesAsync()
+        {
+            return await _employees.Find(_ => true).ToListAsync();
+        }
 
         public async Task AddEmployeeAsync(Employee emp)
         {
@@ -55,17 +59,33 @@ namespace DailyLogSystem.Services
         public async Task DeactivateEmployeeAsync(string employeeId)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.EmployeeId, employeeId);
-            var update = Builders<Employee>.Update.Set("IsActive", false); // only works if you add IsActive later
+            var update = Builders<Employee>.Update.Set(e => e.IsActive, false);
             await _employees.UpdateOneAsync(filter, update);
         }
 
-        public async Task ResetEmployeePasswordAsync(string employeeId)
+        public async Task ReactivateEmployeeAsync(string employeeId)
         {
-            // Stub: implement if you add password fields later
-            await Task.CompletedTask;
+            var filter = Builders<Employee>.Filter.Eq(e => e.EmployeeId, employeeId);
+            var update = Builders<Employee>.Update.Set(e => e.IsActive, true);
+            await _employees.UpdateOneAsync(filter, update);
         }
 
-        // === ADMIN FUNCTIONS ===
+        public async Task<Employee?> ResetEmployeePasswordAsync(string employeeId, string newPassword)
+        {
+            var emp = await GetByEmployeeIdAsync(employeeId);
+            if (emp == null) return null;
+
+            emp.Password = newPassword;
+
+            var filter = Builders<Employee>.Filter.Eq(e => e.EmployeeId, employeeId);
+            await _employees.ReplaceOneAsync(filter, emp);
+
+            return emp;
+        }
+
+        // ============================================================
+        // ADMIN METHODS
+        // ============================================================
         public async Task CreateAdminAsync(Admin admin)
         {
             if (string.IsNullOrWhiteSpace(admin.AdminId))
@@ -80,9 +100,33 @@ namespace DailyLogSystem.Services
         public async Task<Admin?> GetAdminByIdAsync(string adminId) =>
             await _admins.Find(a => a.AdminId == adminId).FirstOrDefaultAsync();
 
-        // === ATTENDANCE FUNCTIONS ===
-        public async Task<List<TodayRecord>> GetAllRecordsAsync() =>
-            await _attendance.Find(_ => true).ToListAsync();
+        // ============================================================
+        // ATTENDANCE METHODS
+        // ============================================================
+        public async Task<List<TodayRecord>> GetAllRecordsAsync()
+        {
+            var logs = await _attendance.Find(_ => true).ToListAsync();
+            var employees = await GetAllEmployeesAsync();
+
+            foreach (var log in logs)
+            {
+                var emp = employees.FirstOrDefault(e => e.EmployeeId == log.EmployeeId);
+
+                if (emp != null)
+                {
+                    // Always sync employee name
+                    log.FullName = emp.FullName;
+                    log.EmployeeName = emp.FullName;
+                }
+                else
+                {
+                    log.FullName = "Unknown";
+                }
+            }
+
+            return logs;
+        }
+
 
         public async Task<List<TodayRecord>> GetAllRecordsByEmployeeAsync(string employeeId)
         {
@@ -92,45 +136,53 @@ namespace DailyLogSystem.Services
 
         public async Task<List<TodayRecord>> GetAllLogsAsync(string employeeId)
         {
-            var filter = Builders<TodayRecord>.Filter.Eq(x => x.EmployeeId, employeeId);
-            return await _attendance.Find(filter).SortByDescending(x => x.Date).ToListAsync();
+            var filter = Builders<TodayRecord>.Filter.Eq(r => r.EmployeeId, employeeId);
+            return await _attendance.Find(filter)
+                .SortByDescending(r => r.Date)
+                .ToListAsync();
         }
 
         public async Task<TodayRecord?> GetTodayRecordAsync(string employeeId)
         {
             var tz = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
             var nowPh = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
-            var startOfDay = nowPh.Date;
-            var endOfDay = startOfDay.AddDays(1);
+
+            var dayStart = nowPh.Date;
+            var dayEnd = dayStart.AddDays(1);
 
             return await _attendance.Find(r =>
                 r.EmployeeId == employeeId &&
-                r.Date >= startOfDay &&
-                r.Date < endOfDay
+                r.Date >= dayStart &&
+                r.Date < dayEnd
             ).FirstOrDefaultAsync();
         }
 
         public async Task RecordTimeInAsync(string employeeId, DateTime phTime)
         {
-            var day = phTime.Date;
-            var record = await _attendance.Find(r => r.EmployeeId == employeeId && r.Date == day).FirstOrDefaultAsync();
+            var record = await _attendance.Find(r =>
+                r.EmployeeId == employeeId &&
+                r.Date == phTime.Date
+            ).FirstOrDefaultAsync();
 
             if (record == null)
             {
                 var newRecord = new TodayRecord
                 {
                     EmployeeId = employeeId,
-                    Date = day,
+                    Date = phTime.Date,
                     TimeIn = phTime
                 };
+
                 await _attendance.InsertOneAsync(newRecord);
             }
         }
 
         public async Task RecordTimeOutAsync(string employeeId, DateTime phTime)
         {
-            var day = phTime.Date;
-            var record = await _attendance.Find(r => r.EmployeeId == employeeId && r.Date == day).FirstOrDefaultAsync();
+            var record = await _attendance.Find(r =>
+                r.EmployeeId == employeeId &&
+                r.Date == phTime.Date
+            ).FirstOrDefaultAsync();
 
             if (record != null && !record.TimeOut.HasValue)
             {
@@ -171,11 +223,58 @@ namespace DailyLogSystem.Services
             await _attendance.UpdateOneAsync(filter, update);
         }
 
-        // === Reports (stub without EPPlus) ===
+        public async Task<TodayRecord?> GetRecordByIdAsync(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return null;
+
+            return await _attendance.Find(r => r.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateRecordAsync(TodayRecord record)
+        {
+            if (record == null || string.IsNullOrWhiteSpace(record.Id)) return;
+
+            await _attendance.ReplaceOneAsync(r => r.Id == record.Id, record);
+        }
+
         public async Task<byte[]> GenerateExcelReportAsync(List<TodayRecord> logs)
         {
-            // Stub: replace with EPPlus or ClosedXML if you want Excel export
-            return await Task.FromResult(Array.Empty<byte>());
+            using var package = new OfficeOpenXml.ExcelPackage();
+            var worksheet = package.Workbook.Worksheets.Add("Attendance Report");
+
+            // Header row
+            worksheet.Cells[1, 1].Value = "Employee Name";
+            worksheet.Cells[1, 2].Value = "Employee ID";
+            worksheet.Cells[1, 3].Value = "Date";
+            worksheet.Cells[1, 4].Value = "Status";
+            worksheet.Cells[1, 5].Value = "Time In";
+            worksheet.Cells[1, 6].Value = "Time Out";
+            worksheet.Cells[1, 7].Value = "Total Hours";
+
+            int row = 2;
+
+            // Get all employees to match names
+            var employees = await GetAllEmployeesAsync();
+
+            foreach (var log in logs)
+            {
+                var employee = employees.FirstOrDefault(e => e.EmployeeId == log.EmployeeId);
+
+                worksheet.Cells[row, 1].Value = employee?.FullName ?? "Unknown";
+                worksheet.Cells[row, 2].Value = log.EmployeeId;
+                worksheet.Cells[row, 3].Value = log.Date.ToString("yyyy-MM-dd");
+                worksheet.Cells[row, 4].Value = log.Status ?? "";
+                worksheet.Cells[row, 5].Value = log.TimeIn?.ToString("hh:mm tt") ?? "";
+                worksheet.Cells[row, 6].Value = log.TimeOut?.ToString("hh:mm tt") ?? "";
+                worksheet.Cells[row, 7].Value = log.TotalHours ?? "";
+
+                row++;
+            }
+
+            worksheet.Cells.AutoFitColumns();
+
+            return package.GetAsByteArray();
         }
+
     }
 }

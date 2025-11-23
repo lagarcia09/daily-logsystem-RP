@@ -8,11 +8,11 @@
 
 <main class="min-h-screen flex items-center justify-center font-sans bg-[#BBC863]">
 
-    <!-- LEFT SIDE FORM -->
+    
     <div class="flex-1 flex items-center justify-center py-10 px-6">
         <div class="bg-[#E8FFD7]/95 rounded-xl shadow-xl p-8 border border-[#5E936C] w-full max-w-2xl">
 
-            <!-- Header -->
+            
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800 mb-2">
                     🏠 Work-From-Home Employee Registration
@@ -20,7 +20,7 @@
                 <p class="text-gray-600">“Complete all required information.”</p>
             </div>
 
-            <!-- Back to Login Button -->
+            <!-- return login  -->
             <div class="mb-6">
                 <a asp-page="/Index"
                    class="inline-flex items-center gap-2 px-4 py-2 bg-[#93DA97] text-[#2A4230]
@@ -35,10 +35,10 @@
             </div>
 
 
-            <!-- FORM START -->
+            <!-- employee reg form -->
             <form method="post" novalidate class="space-y-8" id="registerForm">
 
-                <!-- PERSONAL INFO -->
+                
                 <div class="bg-[#93DA97] rounded-lg p-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                         <svg class="w-5 h-5 mr-2 text-[#3E5F44]" fill="currentColor" viewBox="0 0 20 20">
@@ -77,7 +77,7 @@
                     </div>
                 </div>
 
-                <!-- EMPLOYMENT -->
+                <!-- type of employee -->
                 <div class="bg-[#93DA97] rounded-lg p-6 mt-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                         <svg class="w-5 h-5 mr-2 text-[#3E5F44]" fill="currentColor" viewBox="0 0 20 20">
@@ -125,11 +125,11 @@
                             </select>
                         </div>
 
-                        <!-- PASSWORD -->
+                        
                         <div class="md:col-span-1 relative">
                             <label asp-for="Input.Password" class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
 
-                            <!-- parent must be relative so absolute button positions correctly -->
+                           
                             <div class="relative">
                                 <input id="passwordInput" asp-for="Input.Password" type="password"
                                        class="w-full px-3 py-2 border border-[#5E936C] rounded-md focus:ring-2 focus:ring-[#3E5F44]" />
@@ -144,7 +144,7 @@
                             <span asp-validation-for="Input.Password" class="text-red-600 text-sm"></span>
                         </div>
 
-                        <!-- CONFIRM PASSWORD -->
+                       
                         <div class="md:col-span-1 relative">
                             <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
 
@@ -154,7 +154,7 @@
                             <span id="confirmError" class="text-red-600 text-sm hidden">Passwords do not match.</span>
                         </div>
 
-                        <!-- SUBMIT -->
+                       
                         <div class="md:col-span-2 text-center mt-6">
                             <button type="submit"
                                     class="bg-[#3E5F44] hover:bg-[#2A4230] text-white font-semibold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 shadow-lg">
@@ -162,16 +162,15 @@
                             </button>
                         </div>
 
-                    </div> <!-- closes Employment grid -->
-                </div> <!-- closes Employment container -->
+                    </div> 
+                </div> 
 
-            </form> <!-- closes form -->
-            <!-- FORM END -->
+            </form> 
+            
 
         </div>
     </div>
 
-    <!-- RIGHT SIDE IMAGE -->
     <div class="hidden md:block w-1/2 relative">
         <img src="/images/bg-main.gif"
              class="absolute inset-0 w-full h-full object-cover object-right" />
@@ -188,7 +187,7 @@
 
 </main>
 
-<!-- SCRIPT: placed after markup so elements exist -->
+
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", () => {

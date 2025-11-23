@@ -31,11 +31,11 @@
 </head>
 <body class="min-h-full" style="background-color: #5D866C;">
 
-    <!-- Navigation -->
+    <!-- nav bar -->
     <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;" class="shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <div class="text-3xl font-bold" style="color: #5D866C;"> Instructor's TimeTracker</div>
+                <div class="text-3xl font-bold" style="color: #5D866C;"> Employee TimeTracker</div>
                 <div class="flex space-x-2">
                     <button onclick="showSection('timetracker')" class="nav-btn px-6 py-3 rounded-xl transition-all duration-300 shadow-lg font-semibold" style="background-color: #5D866C; color: #F5F5F0;">
                         🏠 Dashboard
@@ -61,29 +61,29 @@
         </div>
     </nav>
 
-    <!-- Time Tracker Section -->
+    <!-- dashboard clock -->
     <div id="timetracker" class="section">
         <div class="max-w-4xl mx-auto p-6">
             <div class="rounded-2xl shadow-2xl p-8 text-center" style="background-color: #F5F5F0; border: 3px solid #E6D8C3;">
                 <h1 class="text-4xl font-bold mb-2" style="color: #5D866C;">Employee Time Tracker</h1>
                 <p class="mb-8 text-lg" style="color: #C2A68C;">Welcome back! Track your work hours here. ✨</p>
 
-                <!-- Current Time Display -->
+              
                 <div class="rounded-2xl p-8 mb-8 shadow-lg" style="background-color: #C2A68C; border: 2px solid #5D866C;">
                     <div class="clock text-5xl font-bold mb-3" style="color: #F5F5F0;" id="currentTime">Loading...</div>
                     <div class="text-xl" style="color: #E6D8C3;" id="currentDate">Loading...</div>
                 </div>
 
-                <!-- Employee Info -->
+             
                 <div class="rounded-xl p-6 mb-8" style="background-color: #E6D8C3; border: 2px solid #C2A68C;">
                     <div class="text-sm" style="color: #5D866C;">
                         Employee ID:
                         <span class="font-semibold" style="color: #5D866C;">@Model.EmployeeId</span>
                     </div>
-                    <div class="text-xl font-semibold mt-1" style="color: #5D866C;">@Model.EmployeeName</div>
+                    <div class="text-xl font-semibold mt-1" style="color: #5D866C;">@Model.FullName</div>
                 </div>
 
-                <!-- Time In/Out Buttons -->
+              
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <form method="post">
                         <button type="submit" name="action" value="TimeIn" class="font-bold py-6 px-8 rounded-2xl text-xl transition-all duration-300 transform hover:scale-105 shadow-lg" style="background-color: #C2A68C; color: #F5F5F0;">
@@ -97,7 +97,7 @@
                     </form>
                 </div>
 
-                <!-- Today's Status -->
+                <!-- user today status -->
                 <div class="rounded-2xl p-8" style="background-color: #E6D8C3; border: 2px solid #C2A68C;">
                     <h3 class="text-xl font-semibold mb-6" style="color: #5D866C;">Today's Status</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -113,7 +113,7 @@
                             <div class="text-3xl font-bold mb-2" style="color: #5D866C;" id="totalHours">@Model.TodayRecord?.TotalHours </div>
                             <div class="text-sm" style="color: #C2A68C;">Total Hours</div>
                         </div>
-                        <!-- Attendance Status -->
+                        
                         <div class="rounded-xl p-6" style="background-color: #C2A68C; border: 2px solid #5D866C;">
                             <div class="text-3xl font-bold mb-2" style="color: #F5F5F0;">
                                 @Model.TodayRecord?.Status
@@ -121,7 +121,7 @@
                             <div class="text-sm" style="color: #E6D8C3;">Status</div>
                         </div>
 
-                        <!-- Overtime Hours -->
+                        
                         <div class="rounded-xl p-6" style="background-color: #5D866C; border: 2px solid #C2A68C;">
                             <div class="text-3xl font-bold mb-2" style="color: #F5F5F0;">
                                 @Model.TodayRecord?.OvertimeHours
@@ -132,7 +132,7 @@
 
                     </div>
                 </div>
-                <!-- Documentation Upload -->
+                <!-- documentation upload -->
                 <div class="rounded-2xl p-8 mt-8" style="background-color: #F5F5F0; border: 2px solid #C2A68C;">
                     <h3 class="text-xl font-semibold mb-4" style="color: #5D866C;">Upload Class Documentation</h3>
 
@@ -154,10 +154,10 @@
         </div>
     </div>
 
-    <!-- Calendar & Records sections can be ported similarly with Razor placeholders -->
+    
 
     <script>
-        // Clock update (frontend only)
+        
         function updateClock() {
             const now = new Date();
             document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });

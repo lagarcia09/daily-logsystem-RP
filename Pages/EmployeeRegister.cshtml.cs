@@ -28,21 +28,21 @@ namespace DailyLogSystem.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            // ✅ Generate unique Employee ID (format: YY-XXXXX)
+            // generate emp id
             string year = DateTime.Now.Year.ToString().Substring(2, 2);
             string randomDigits = new Random().Next(10000, 99999).ToString();
             Input.EmployeeId = $"{year}-{randomDigits}";
 
-            // ✅ Normalize input
+            
             Input.Email = Input.Email.Trim().ToLower();
             Input.Password = Input.Password.Trim();
             Input.FullName = Input.FullName.Trim();
 
       
-            // Save to MongoDB
+       
             await _mongoService.AddEmployeeAsync(Input);
 
-            // ✅ Send confirmation email with Employee ID
+            // email notif success/ login
             var subject = "Registration Successful - Daily Log System";
             var body = $@"
                 <h3>Hi {Input.FullName},</h3>

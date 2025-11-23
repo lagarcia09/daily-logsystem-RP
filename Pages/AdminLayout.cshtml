@@ -16,23 +16,28 @@
             box-sizing: border-box;
         }
     </style>
+
+    <script>
+        function logoutUser() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "/Logout";
+            }
+        }
+    </script>
 </head>
 
 <body class="min-h-screen" style="background-color:#5D866C;">
 
-    <!-- ADMIN NAVIGATION -->
     <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;"
          class="shadow-lg">
 
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
 
-                <!-- Title -->
                 <div class="text-3xl font-bold" style="color:#5D866C;">
                     Admin Dashboard
                 </div>
 
-                <!-- Navigation Buttons -->
                 <div class="flex space-x-2">
 
                     <a asp-page="/AdminOverview"
@@ -59,18 +64,17 @@
                         📄 Reports
                     </a>
 
-                    <a href="/Index"
-                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
-                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                    <button onclick="logoutUser()"
+                            class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                            style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
                         🚪 Logout
-                    </a>
+                    </button>
 
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- PAGE BODY -->
     <div class="max-w-7xl mx-auto p-8">
         @RenderBody()
     </div>

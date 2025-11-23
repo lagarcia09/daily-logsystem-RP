@@ -9,33 +9,127 @@
     <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Attendance Oversight</h2>
 
     <form method="get" class="mb-4">
-        <input type="text" name="SearchName" placeholder="Search by name" class="p-3 border rounded-xl w-full mb-2" />
+
+        <!-- DATE FILTER -->
+        <input type="date"
+               name="SelectedDate"
+               value="@(Model.SelectedDate?.ToString("yyyy-MM-dd"))"
+               class="p-3 border rounded-xl w-full mb-2" />
+
         <select name="StatusFilter" class="p-3 border rounded-xl w-full mb-2">
             <option value="">All</option>
             <option>ABSENT</option>
             <option>LATE</option>
+            <option>UNDERTIME</option>
             <option>OVERTIME</option>
+            <option>ON TIME</option>
         </select>
+
         <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg" style="background:#5D866C; color:#F5F5F0;">🔍 Filter</button>
     </form>
 
+    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+    {
+        <div class="mb-4 p-3 rounded" style="background:#D1FAE5; color:#065F46;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
     <table class="w-full text-left">
-        <thead><tr class="border-b"><th>Date</th><th>Employee</th><th>Status</th><th>Hours</th><th>Actions</th></tr></thead>
+        <thead>
+            <tr class="border-b">
+                <th>Date</th>
+                <th>Employee</th>
+                <th>Status</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Hours</th>
+                <th>Overtime</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
         <tbody>
             @foreach (var log in Model.AttendanceLogs)
             {
                 <tr class="border-b">
                     <td>@log.Date.ToString("MMM dd, yyyy")</td>
-                    <td>@log.EmployeeName</td>
+                    <td>@(string.IsNullOrWhiteSpace(log.DisplayName) ? "Unknown" : log.DisplayName)</td>
                     <td>@log.Status</td>
+                    <td>@(log.TimeIn.HasValue ? log.TimeIn.Value.ToString("yyyy-MM-dd HH:mm") : "-")</td>
+                    <td>@(log.TimeOut.HasValue ? log.TimeOut.Value.ToString("yyyy-MM-dd HH:mm") : "-")</td>
                     <td>@log.TotalHours</td>
+                    <td>@log.OvertimeHours</td>
                     <td>
-                        <form method="post" asp-page-handler="OverrideLog" asp-route-id="@log.Id">
-                            <button class="px-4 py-2 rounded-lg" style="background:#C2A68C; color:white;">Edit</button>
-                        </form>
+                        <button type="button"
+                                class="px-3 py-1 rounded shadow-sm"
+                                style="background:#C2A68C; color:white;"
+                                onclick="openEditModal('@log.Id', '@(log.Date.ToString("yyyy-MM-dd"))', '@(log.TimeIn?.ToString("yyyy-MM-ddTHH:mm") ?? "")', '@(log.TimeOut?.ToString("yyyy-MM-ddTHH:mm") ?? "")', '@(log.Status)', '@(log.OvertimeHours)')">
+                            Edit
+                        </button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<!-- EDIT ATTENDANCE MODAL (single modal reused) -->
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-xl w-[520px] shadow-lg">
+        <h2 class="text-xl font-semibold mb-3" style="color:#5D866C;">Edit Attendance</h2>
+
+        <form method="post" asp-page-handler="EditAttendance" id="editAttendanceForm">
+            <input type="hidden" id="edit_id" name="id" />
+
+            <label class="block mb-1 font-semibold">Date (readonly)</label>
+            <input id="edit_date" type="date" name="date" class="w-full p-3 border rounded-xl mb-3" readonly />
+
+            <label class="block mb-1 font-semibold">Time In</label>
+            <input id="edit_timein" name="timeIn" type="datetime-local" class="w-full p-3 border rounded-xl mb-3" />
+
+            <label class="block mb-1 font-semibold">Time Out</label>
+            <input id="edit_timeout" name="timeOut" type="datetime-local" class="w-full p-3 border rounded-xl mb-3" />
+
+            <label class="block mb-1 font-semibold">Status</label>
+            <select id="edit_status" name="status" class="w-full p-3 border rounded-xl mb-3">
+                <option>ON TIME</option>
+                <option>LATE</option>
+                <option>ABSENT</option>
+                <option>UNDERTIME</option>
+                <option>OVERTIME</option>
+            </select>
+
+            <label class="block mb-1 font-semibold">Overtime Hours (optional)</label>
+            <input id="edit_overtime" name="overtime" type="text" class="w-full p-3 border rounded-xl mb-4" placeholder="e.g. 1.50" />
+
+            <div class="flex justify-end gap-3">
+                <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-300 rounded-xl">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded-xl text-white" style="background:#5D866C;">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditModal(id, date, timeIn, timeOut, status, overtime) {
+        document.getElementById('edit_id').value = id;
+
+        // date (yyyy-MM-dd)
+        document.getElementById('edit_date').value = date;
+
+        // datetime-local wants 'yyyy-MM-ddTHH:mm'
+        document.getElementById('edit_timein').value = timeIn || "";
+        document.getElementById('edit_timeout').value = timeOut || "";
+
+        document.getElementById('edit_status').value = status || "ON TIME";
+        document.getElementById('edit_overtime').value = overtime || "";
+
+        document.getElementById('editModal').classList.remove('hidden');
+        document.getElementById('editModal').classList.add('flex');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+        document.getElementById('editModal').classList.remove('flex');
+    }
+</script>

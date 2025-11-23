@@ -9,8 +9,11 @@ namespace DailyLogSystem.Pages
         private readonly MongoDbService _mongoService;
 
         public int TotalEmployees { get; set; }
-        public int AbsencesToday { get; set; }
-        public double OvertimeThisWeek { get; set; }
+        public int PresentToday { get; set; }
+        public int AbsentToday { get; set; }
+        public int LateToday { get; set; }
+        public int UndertimeToday { get; set; }
+        public int OvertimeToday { get; set; }
 
         public List<Employee> Employees { get; set; } = new();
         public List<TodayRecord> AttendanceLogs { get; set; } = new();
@@ -27,13 +30,50 @@ namespace DailyLogSystem.Pages
 
             AttendanceLogs = await _mongoService.GetAllRecordsAsync();
 
-            AbsencesToday = AttendanceLogs
-                .Count(l => l.Date.Date == DateTime.Today && l.Status == "ABSENT");
+            // PH TIMEZONE
+            var phZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+            var phToday = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, phZone).Date;
 
-            var startOfWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
-            OvertimeThisWeek = AttendanceLogs
-                .Where(l => l.Date >= startOfWeek)
-                .Sum(l => double.TryParse(l.OvertimeHours, out var ot) ? ot : 0);
+            // Filter using PH date
+            var todayLogs = AttendanceLogs.Where(l =>
+            {
+                var phDate = TimeZoneInfo.ConvertTimeFromUtc(l.Date, phZone).Date;
+                return phDate == phToday;
+            }).ToList();
+
+            // ---- COUNT STATUSES ----
+            AbsentToday = todayLogs.Count(l => l.Status?.ToUpper() == "ABSENT");
+
+            // Present = Present + Late + Undertime + Overtime
+            PresentToday = todayLogs.Count(l =>
+            {
+                var status = l.Status?.ToUpper();
+                bool isLate = status == "LATE";
+                bool isPresent = status == "PRESENT";
+
+                bool hasUndertime = !string.IsNullOrEmpty(l.UndertimeHours) &&
+                                    double.TryParse(l.UndertimeHours, out var ut) &&
+                                    ut > 0;
+
+                bool hasOvertime = double.TryParse(l.OvertimeHours, out var ot) &&
+                                   ot > 0;
+
+                return isPresent || isLate || hasUndertime || hasOvertime;
+            });
+
+            LateToday = todayLogs.Count(l => l.Status?.ToUpper() == "LATE");
+
+            UndertimeToday = todayLogs.Count(l =>
+                !string.IsNullOrEmpty(l.UndertimeHours) &&
+                double.TryParse(l.UndertimeHours, out var ut) &&
+                ut > 0
+            );
+
+            OvertimeToday = todayLogs.Count(l =>
+                double.TryParse(l.OvertimeHours, out var ot) &&
+                ot > 0
+            );
+
         }
     }
 }

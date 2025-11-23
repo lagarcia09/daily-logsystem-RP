@@ -14,12 +14,12 @@
 
 <body style="background-color:#5D866C;">
 
-    <!-- NAVIGATION -->
+    
     <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;" class="shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <div class="text-3xl font-bold" style="color: #5D866C;">
-                    Instructor's TimeTracker
+                    Employee TimeTracker
                 </div>
 
                 <div class="flex space-x-2">
@@ -49,10 +49,10 @@
         </div>
     </nav>
 
-    <!-- MAIN WRAPPER -->
+    <!-- records infos -->
     <div class="max-w-6xl mx-auto p-6">
 
-        <!-- MONTHLY SUMMARY -->
+       
         <div class="rounded-2xl p-8 mb-8"
              style="background-color:#F5F5F0; border:3px solid #E6D8C3;">
             <h1 class="text-3xl font-bold mb-4" style="color:#5D866C;">
@@ -93,11 +93,11 @@
 
             <form method="post" asp-page-handler="ExportPDF" class="mt-6">
                 <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg" style="background:#5D866C; color:white;">
-                    📄 Export Monthly Report (PDF)
+                     Export Monthly Report (PDF)
                 </button>
             </form>
 
-            <!-- ✅ PIE CHARTS directly below summary -->
+            <!-- chart -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                 <div class="bg-white rounded-xl shadow p-4">
                     <canvas id="attendancePie" width="200" height="200"></canvas>
@@ -108,7 +108,7 @@
             </div>
         </div>
 
-        <!-- ATTENDANCE TABLE -->
+      
         <div class="rounded-2xl p-8"
              style="background-color:#F5F5F0; border:3px solid #E6D8C3;">
             <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Daily Attendance</h2>
@@ -177,6 +177,11 @@
                 }
             }
         });
+             function logoutUser() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "/Logout";
+            }
+        }
     </script>
 
 </body>

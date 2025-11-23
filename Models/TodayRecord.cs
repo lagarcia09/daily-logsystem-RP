@@ -28,7 +28,20 @@ namespace DailyLogSystem.Models
         public string OvertimeHours { get; set; } = "";
         public string UndertimeHours { get; set; } = "";
 
+        // MongoDB OLD FIELD
+        [BsonElement("EmployeeName")]
         public string? EmployeeName { get; set; }
 
+        // MongoDB NEW FIELD
+        [BsonElement("FullName")]
+        public string? FullName { get; set; }
+
+        // Avoid crash when unexpected fields exist
+        [BsonExtraElements]
+        public BsonDocument? Extra { get; set; }
+
+        // Auto-computed unified FullName (use this in your code)
+        [BsonIgnore]
+        public string DisplayName => FullName ?? EmployeeName ?? "";
     }
 }
