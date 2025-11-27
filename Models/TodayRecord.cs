@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 
 namespace DailyLogSystem.Models
 {
@@ -38,6 +39,7 @@ namespace DailyLogSystem.Models
 
         // Avoid crash when unexpected fields exist
         [BsonExtraElements]
+        [JsonIgnore] // <-- Ignore Extra when serializing to JSON
         public BsonDocument? Extra { get; set; }
 
         // Auto-computed unified FullName (use this in your code)

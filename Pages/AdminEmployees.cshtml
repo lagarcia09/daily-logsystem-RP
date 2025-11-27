@@ -2,182 +2,256 @@
 @model DailyLogSystem.Pages.AdminEmployeesModel
 @{
     ViewData["Title"] = "Employee Management";
-    Layout = "AdminLayout";
 }
 
-<div class="max-w-6xl mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Employee Management</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Admin</title>
 
-    <form method="get" class="mb-4 flex gap-2">
-        <input type="text" name="search" value="@Model.Search" placeholder="Search by Name, ID, Email..."
-               class="p-3 border rounded-xl w-full" />
-        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg"
-                style="background:#5D866C; color:white;">
-            Search
-        </button>
-    </form>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <table class="w-full text-left">
-        <thead>
-            <tr class="border-b">
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
-                <th>Status</th>
-            </tr>
-        </thead>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+    </style>
 
-        <tbody>
-            @foreach (var emp in Model.Employees)
-            {
-                <tr class="border-b">
-                    <td>@emp.FullName</td>
-                    <td>@emp.Email</td>
-                    <td>@emp.Role</td>
-
-                    <td class="flex gap-2">
-                        @if (emp.IsActive)
-                        {
-                            <button type="button"
-                                    onclick="openDeactivate('@emp.EmployeeId')"
-                                    class="text-red-600 font-bold">
-                                Deactivate
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button"
-                                    onclick="openReactivate('@emp.EmployeeId')"
-                                    class="text-green-600 font-bold">
-                                Reactivate
-                            </button>
-                        }
-
-                        <button type="button"
-                                onclick="openReset('@emp.EmployeeId')"
-                                class="px-4 py-2 rounded-lg"
-                                style="background:#5D866C; color:white;">
-                            Reset Password
-                        </button>
-                    </td>
-
-                    <td>
-                        @if (emp.IsActive)
-                        {
-                            <span class="text-green-600 font-semibold">Active</span>
-                        }
-                        else
-                        {
-                            <span class="text-red-600 font-semibold">Inactive</span>
-                        }
-                    </td>
-                </tr>
+    <script>
+        function logoutUser() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "/Logout";
             }
-        </tbody>
-    </table>
-</div>
+        }
+    </script>
+</head>
 
-<!-- ========================= -->
-<!-- RESET PASSWORD MODAL -->
-<!-- ========================= -->
-<div id="resetModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
-    <div class="bg-white p-6 rounded-xl w-96 shadow-lg">
-        <h2 class="text-xl font-semibold mb-3" style="color:#5D866C;">Reset Password</h2>
+<body class="min-h-screen" style="background-color:#5D866C;">
 
-        <form method="post" asp-page-handler="ResetPassword">
-            <input type="hidden" id="reset_emp_id" name="id" />
+    <!-- NAVIGATION BAR -->
+    <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;" class="shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
 
-            <label class="block mb-1 font-semibold">New Password</label>
-            <input type="password" name="NewPassword"
-                   class="w-full p-3 border rounded-xl mb-4" required />
+                <img src="/images/WFH DLS LOGO.png"
+                     alt="System Logo"
+                     class="w-24 h-24 object-contain" />
 
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeReset()"
-                        class="px-4 py-2 rounded-xl bg-gray-300">
-                    Cancel
-                </button>
+                <div class="text-3xl font-bold" style="color:#5D866C;">
+                    Admin Dashboard
+                </div>
 
-                <button type="submit" class="px-4 py-2 rounded-xl text-white"
-                        style="background:#5D866C;">
-                    Confirm
-                </button>
+                <div class="flex space-x-2">
+
+                    <a asp-page="/AdminOverview"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#5D866C; color:#F5F5F0; border:2px solid #C2A68C;">
+                        📊 Overview
+                    </a>
+
+                    <a asp-page="/AdminEmployees"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        👥 Employees
+                    </a>
+
+                    <a asp-page="/AdminAttendance"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🕒 Attendance
+                    </a>
+
+                    <a asp-page="/AdminReports"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        📄 Reports
+                    </a>
+
+                    <button onclick="logoutUser()"
+                            class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                            style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🚪 Logout
+                    </button>
+
+                </div>
             </div>
+        </div>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <div class="max-w-6xl mx-auto p-6">
+
+        <h2 class="text-2xl font-bold mb-4" style="color:#D7C097;">Employee Management</h2>
+
+        <form method="get" class="mb-4 flex gap-2">
+            <input type="text" name="search" value="@Model.Search" placeholder="Search by Name, ID, Email..."
+                   class="p-3 border rounded-xl w-full" />
+            <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg"
+                    style="background:#5D866C; color:white;">
+                Search
+            </button>
         </form>
+
+        <table class="w-full text-left">
+            <thead>
+                <tr class="border-b">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Position</th>
+                    <th>Department</th>
+                    <th>Actions</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var emp in Model.Employees)
+                {
+                    <tr class="border-b">
+                        <td>@emp.FullName</td>
+                        <td>@emp.Email</td>
+                        <td>@emp.Position</td>
+                        <td>@emp.Department</td>
+
+                        <td class="flex gap-2">
+                            @if (emp.IsActive)
+                            {
+                                <button type="button"
+                                        onclick="openDeactivate('@emp.EmployeeId')"
+                                        class="text-red-600 font-bold">
+                                    Deactivate
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button"
+                                        onclick="openReactivate('@emp.EmployeeId')"
+                                        class="text-green-600 font-bold">
+                                    Reactivate
+                                </button>
+                            }
+
+                            <button type="button"
+                                    onclick="openReset('@emp.EmployeeId')"
+                                    class="px-4 py-2 rounded-lg"
+                                    style="background:#5D866C; color:white;">
+                                Reset Password
+                            </button>
+                        </td>
+
+                        <td>
+                            @if (emp.IsActive)
+                            {
+                                <span class="text-green-600 font-semibold">Active</span>
+                            }
+                            else
+                            {
+                                <span class="text-red-600 font-semibold">Inactive</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</div>
 
-<!-- ========================= -->
-<!-- DEACTIVATE MODAL -->
-<!-- ========================= -->
-<div id="deactivateModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
-    <div class="bg-white p-6 rounded-xl w-96 shadow-lg">
-        <h2 class="text-xl font-semibold mb-3" style="color:#C2A68C;">Deactivate Employee</h2>
-        <p class="mb-4">Are you sure you want to deactivate this employee?</p>
+    <!-- RESET MODAL -->
+    <div id="resetModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-xl w-96 shadow-lg">
+            <h2 class="text-xl font-semibold mb-3" style="color:#5D866C;">Reset Password</h2>
 
-        <form method="post" asp-page-handler="DeactivateEmployee">
-            <input type="hidden" id="deactivate_id" name="id" />
+            <form method="post" asp-page-handler="ResetPassword">
+                <input type="hidden" id="reset_emp_id" name="id" />
 
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeDeactivate()" class="px-4 py-2 bg-gray-300 rounded-xl">
-                    Cancel
-                </button>
-                <button type="submit" class="px-4 py-2 text-white rounded-xl" style="background:#C2A68C;">
-                    Confirm
-                </button>
-            </div>
-        </form>
+                <label class="block mb-1 font-semibold">New Password</label>
+                <input type="password" name="NewPassword"
+                       class="w-full p-3 border rounded-xl mb-4" required />
+
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeReset()"
+                            class="px-4 py-2 rounded-xl bg-gray-300">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="px-4 py-2 rounded-xl text-white"
+                            style="background:#5D866C;">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- ========================= -->
-<!-- REACTIVATE MODAL -->
-<!-- ========================= -->
-<div id="reactivateModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
-    <div class="bg-white p-6 rounded-xl w-96 shadow-lg">
-        <h2 class="text-xl font-semibold mb-3" style="color:#5D866C;">Reactivate Employee</h2>
-        <p class="mb-4">Reactivate this employee?</p>
+    <!-- DEACTIVATE MODAL -->
+    <div id="deactivateModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-xl w-96 shadow-lg">
+            <h2 class="text-xl font-semibold mb-3" style="color:#C2A68C;">Deactivate Employee</h2>
+            <p class="mb-4">Are you sure you want to deactivate this employee?</p>
 
-        <form method="post" asp-page-handler="ReactivateEmployee">
-            <input type="hidden" id="reactivate_id" name="id" />
+            <form method="post" asp-page-handler="DeactivateEmployee">
+                <input type="hidden" id="deactivate_id" name="id" />
 
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeReactivate()" class="px-4 py-2 bg-gray-300 rounded-xl">
-                    Cancel
-                </button>
-                <button type="submit" class="px-4 py-2 text-white rounded-xl" style="background:#5D866C;">
-                    Confirm
-                </button>
-            </div>
-        </form>
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeDeactivate()" class="px-4 py-2 bg-gray-300 rounded-xl">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 text-white rounded-xl" style="background:#C2A68C;">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- ========================= -->
-<!-- JAVASCRIPT FUNCTIONS -->
-<!-- ========================= -->
-<script>
-    function openReset(id) {
-        document.getElementById("reset_emp_id").value = id;
-        document.getElementById("resetModal").classList.remove("hidden");
-    }
-    function closeReset() {
-        document.getElementById("resetModal").classList.add("hidden");
-    }
+    <!-- REACTIVATE MODAL -->
+    <div id="reactivateModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-xl w-96 shadow-lg">
+            <h2 class="text-xl font-semibold mb-3" style="color:#5D866C;">Reactivate Employee</h2>
+            <p class="mb-4">Reactivate this employee?</p>
 
-    function openDeactivate(id) {
-        document.getElementById("deactivate_id").value = id;
-        document.getElementById("deactivateModal").classList.remove("hidden");
-    }
-    function closeDeactivate() {
-        document.getElementById("deactivateModal").classList.add("hidden");
-    }
+            <form method="post" asp-page-handler="ReactivateEmployee">
+                <input type="hidden" id="reactivate_id" name="id" />
 
-    function openReactivate(id) {
-        document.getElementById("reactivate_id").value = id;
-        document.getElementById("reactivateModal").classList.remove("hidden");
-    }
-    function closeReactivate() {
-        document.getElementById("reactivateModal").classList.add("hidden");
-    }
-</script>
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeReactivate()" class="px-4 py-2 bg-gray-300 rounded-xl">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 text-white rounded-xl" style="background:#5D866C;">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS FUNCTIONS -->
+    <script>
+        function openReset(id) {
+            document.getElementById("reset_emp_id").value = id;
+            document.getElementById("resetModal").classList.remove("hidden");
+        }
+        function closeReset() {
+            document.getElementById("resetModal").classList.add("hidden");
+        }
+
+        function openDeactivate(id) {
+            document.getElementById("deactivate_id").value = id;
+            document.getElementById("deactivateModal").classList.remove("hidden");
+        }
+        function closeDeactivate() {
+            document.getElementById("deactivateModal").classList.add("hidden");
+        }
+
+        function openReactivate(id) {
+            document.getElementById("reactivate_id").value = id;
+            document.getElementById("reactivateModal").classList.remove("hidden");
+        }
+        function closeReactivate() {
+            document.getElementById("reactivateModal").classList.add("hidden");
+        }
+    </script>
+
+</body>
+</html>

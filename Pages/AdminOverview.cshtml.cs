@@ -1,5 +1,6 @@
-using DailyLogSystem.Models;
+﻿using DailyLogSystem.Models;
 using DailyLogSystem.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DailyLogSystem.Pages
@@ -23,8 +24,17 @@ namespace DailyLogSystem.Pages
             _mongoService = mongoService;
         }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            // CHECK IF ADMIN IS LOGGED IN
+            var adminId = HttpContext.Session.GetString("AdminId");
+
+            if (string.IsNullOrEmpty(adminId))
+            {
+                // Not logged in → redirect to login
+                return RedirectToPage("/Index");
+            }
+
             Employees = await _mongoService.GetAllEmployeesAsync();
             TotalEmployees = Employees.Count;
 
@@ -74,6 +84,7 @@ namespace DailyLogSystem.Pages
                 ot > 0
             );
 
+            return Page();
         }
+      }
     }
-}

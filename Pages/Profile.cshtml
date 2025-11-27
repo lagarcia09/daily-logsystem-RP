@@ -1,0 +1,50 @@
+﻿@page
+@model DailyLogSystem.Pages.ProfileModel
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- CENTER CONTAINER -->
+<div class="min-h-screen flex items-center justify-center bg-transparent">
+
+    <!-- PROFILE BOX -->
+    <div class="max-w-md w-full p-6 rounded-xl"
+         style="border:3px solid #C2A68C; background-color:#F5F5F0;">
+
+        <h2 class="text-2xl font-bold mb-4 text-center" style="color:#5D866C;">
+            👤 Profile Settings
+        </h2>
+
+        <form method="post" class="space-y-4">
+
+            <div>
+                <label class="font-semibold" style="color:#5D866C;">Full Name</label>
+                <input asp-for="FullName"
+                       class="w-full px-3 py-2 rounded-lg"
+                       style="border:2px solid #C2A68C;" />
+            </div>
+
+            <div>
+                <label class="font-semibold" style="color:#5D866C;">Contact Number</label>
+                <input asp-for="ContactNumber"
+                       class="w-full px-3 py-2 rounded-lg"
+                       style="border:2px solid #C2A68C;" />
+            </div>
+
+            <div>
+                <label class="font-semibold" style="color:#5D866C;">Address</label>
+                <input asp-for="Address"
+                       class="w-full px-3 py-2 rounded-lg"
+                       style="border:2px solid #C2A68C;" />
+            </div>
+
+            <button type="submit"
+                    class="w-full py-2 rounded-lg text-lg font-bold"
+                    style="background-color:#5D866C; color:#F5F5F0;">
+                💾 Save Changes
+            </button>
+
+        </form>
+    </div>
+
+</div>
+

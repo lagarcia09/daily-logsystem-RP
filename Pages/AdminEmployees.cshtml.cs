@@ -21,8 +21,14 @@ namespace DailyLogSystem.Pages
             _emailService = emailService;
         }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var adminId = HttpContext.Session.GetString("AdminId");
+            if (string.IsNullOrEmpty(adminId))
+            {
+                return RedirectToPage("/Index");
+            }
+
             var allEmployees = await _mongoService.GetAllEmployeesAsync();
 
             if (!string.IsNullOrWhiteSpace(Search))
@@ -32,22 +38,27 @@ namespace DailyLogSystem.Pages
                 Employees = allEmployees.Where(e =>
                     (e.EmployeeId ?? "").ToLower().Contains(lower) ||
                     (e.FullName ?? "").ToLower().Contains(lower) ||
-                    (e.Email ?? "").ToLower().Contains(lower)
+                    (e.Email ?? "").ToLower().Contains(lower) ||
+                    (e.Position ?? "").ToLower().Contains(lower) // Supports search by position
                 ).ToList();
             }
             else
             {
                 Employees = allEmployees;
             }
+
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostAddEmployeeAsync(string FullName, string Email, string Role)
+
+        // Add Employee using Position
+        public async Task<IActionResult> OnPostAddEmployeeAsync(string FullName, string Email, string Position)
         {
             var newEmp = new Employee
             {
-                FullName = FullName,
-                Email = Email,
-                Role = Role,
+                FullName = FullName?.Trim() ?? string.Empty,
+                Email = Email?.Trim().ToLower() ?? string.Empty,
+                Position = Position?.Trim() ?? string.Empty,
                 IsActive = true,
                 EmployeeId = GenerateEmployeeId()
             };
@@ -55,6 +66,7 @@ namespace DailyLogSystem.Pages
             await _mongoService.AddEmployeeAsync(newEmp);
             return RedirectToPage();
         }
+
 
         public async Task<IActionResult> OnPostDeactivateEmployeeAsync(string id)
         {

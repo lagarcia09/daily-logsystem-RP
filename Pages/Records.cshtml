@@ -18,6 +18,11 @@
     <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;" class="shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
+
+                <img src="/images/WFH DLS LOGO.png"
+                     alt="System Logo"
+                     class="w-24 h-24 object-contain" />
+
                 <div class="text-3xl font-bold" style="color: #5D866C;">
                     Employee TimeTracker
                 </div>
@@ -44,6 +49,14 @@
                             style="background-color: #E6D8C3; color: #5D866C; border: 2px solid #C2A68C;">
                         🚪 Logout
                     </button>
+
+                    <!-- PROFILE ICON BUTTON -->
+                    <button onclick="openProfileModal()"
+                            class="w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-all duration-300"
+                            style="background-color: #5D866C; color:#F5F5F0; font-size: 22px;">
+                        👤
+                    </button>
+
                 </div>
             </div>
         </div>
@@ -106,6 +119,7 @@
                     <canvas id="hoursPie" width="200" height="200"></canvas>
                 </div>
             </div>
+
         </div>
 
       
@@ -135,6 +149,23 @@
                     }
                 </tbody>
             </table>
+        </div>
+        <!-- PROFILE MODAL -->
+        <div id="profileModal"
+             class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl h-[80vh] overflow-hidden relative">
+
+                <!-- Close button -->
+                <button onclick="closeProfileModal()"
+                        class="absolute top-3 right-3 text-gray-700 text-2xl font-bold hover:text-black">
+                    &times;
+                </button>
+
+                <!-- IFRAME showing Profile.cshtml -->
+                <iframe src="/Profile"
+                        class="w-full h-full border-0"></iframe>
+            </div>
         </div>
 
     </div>
@@ -177,6 +208,14 @@
                 }
             }
         });
+
+        function openProfileModal() {
+            document.getElementById("profileModal").classList.remove("hidden");
+        }
+
+        function closeProfileModal() {
+            document.getElementById("profileModal").classList.add("hidden");
+        }
              function logoutUser() {
             if (confirm("Are you sure you want to logout?")) {
                 window.location.href = "/Logout";

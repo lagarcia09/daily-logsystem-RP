@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;   // <-- REQUIRED
 using Microsoft.Extensions.Configuration;
 
 namespace DailyLogSystem.Services
@@ -52,10 +53,13 @@ namespace DailyLogSystem.Services
             }
         }
 
-        // ⬇⬇⬇ ADD THIS NEW METHOD BELOW ⬇⬇⬇
-        public async Task SendEmailAsync(string toEmail, string subject, string body)
+        // -----------------------------------------------------------------------------------
+        // ✔ ADDED FUNCTION (Your requested version) — Does NOT modify existing logic.
+        // -----------------------------------------------------------------------------------
+        public Task SendEmailAsync(string toEmail, string subject, string htmlBody)
         {
-            await Task.Run(() => SendEmail(toEmail, subject, body));
+            // Reuse your existing working SendEmail()
+            return Task.Run(() => SendEmail(toEmail, subject, htmlBody));
         }
     }
 }

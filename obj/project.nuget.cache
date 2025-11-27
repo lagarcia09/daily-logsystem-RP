@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "1r7ZOF6Uyc4=",
+  "dgSpecHash": "nXsbRl57y40=",
   "success": true,
   "projectFilePath": "D:\\DL Files\\DailyLogSysem-main\\DailyLogSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\CLIENT\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\CLIENT\\.nuget\\packages\\epplus\\8.3.0\\epplus.8.3.0.nupkg.sha512",
     "C:\\Users\\CLIENT\\.nuget\\packages\\epplus.interfaces\\8.1.0\\epplus.interfaces.8.1.0.nupkg.sha512",
+    "C:\\Users\\CLIENT\\.nuget\\packages\\herosd-jwt\\1.1.7\\herosd-jwt.1.1.7.nupkg.sha512",
     "C:\\Users\\CLIENT\\.nuget\\packages\\markdig\\0.42.0\\markdig.0.42.0.nupkg.sha512",
+    "C:\\Users\\CLIENT\\.nuget\\packages\\microsoft.bcl.memory\\10.0.0\\microsoft.bcl.memory.10.0.0.nupkg.sha512",
     "C:\\Users\\CLIENT\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "C:\\Users\\CLIENT\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\CLIENT\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\8.0.1\\microsoft.extensions.configuration.fileextensions.8.0.1.nupkg.sha512",

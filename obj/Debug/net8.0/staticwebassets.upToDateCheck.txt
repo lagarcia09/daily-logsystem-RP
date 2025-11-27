@@ -1,5 +1,4 @@
 wwwroot\css\site.css
-wwwroot\docs\69\2025-11-14\1.png
 wwwroot\favicon.ico
 wwwroot\images\bg-main.gif
 wwwroot\images\reg-bg.png
@@ -61,3 +60,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\images\WFH DLS LOGO.png

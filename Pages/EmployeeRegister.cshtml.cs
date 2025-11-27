@@ -4,9 +4,11 @@ using DailyLogSystem.Models;
 using DailyLogSystem.Services;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DailyLogSystem.Pages
 {
+    [AllowAnonymous]
     public class EmployeeRegisterModel : PageModel
     {
         private readonly MongoDbService _mongoService;
@@ -21,6 +23,8 @@ namespace DailyLogSystem.Pages
             _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
+       
+
         public void OnGet() { }
 
         public async Task<IActionResult> OnPostAsync()
@@ -33,13 +37,14 @@ namespace DailyLogSystem.Pages
             string randomDigits = new Random().Next(10000, 99999).ToString();
             Input.EmployeeId = $"{year}-{randomDigits}";
 
-            
-            Input.Email = Input.Email.Trim().ToLower();
-            Input.Password = Input.Password.Trim();
-            Input.FullName = Input.FullName.Trim();
 
-      
-       
+            Input.Email = Input.Email!.Trim().ToLower();
+            Input.Password = Input.Password!.Trim();
+            Input.FullName = Input.FullName!.Trim();
+
+
+
+
             await _mongoService.AddEmployeeAsync(Input);
 
             // email notif success/ login

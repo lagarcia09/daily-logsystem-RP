@@ -37,7 +37,6 @@ namespace DailyLogSystem.Pages
                 return;
             }
 
-           
             Logs = await _mongoService.GetAllLogsAsync(id);
 
             var ph = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
@@ -59,7 +58,6 @@ namespace DailyLogSystem.Pages
                 .Where(l => l.Date.Month == now.Month && l.Date.Year == now.Year)
                 .ToList();
 
-           
             TotalWorkedDays = currentMonthLogs.Count(l => l.TimeIn.HasValue && l.Status != "ABSENT");
 
             int totalWorkingDays = Enumerable.Range(1, DateTime.DaysInMonth(now.Year, now.Month))
@@ -69,11 +67,9 @@ namespace DailyLogSystem.Pages
                             d.DayOfWeek != DayOfWeek.Sunday)
                 .Count();
 
-          
             AbsencesThisMonth = currentMonthLogs.Count(l => l.Status == "ABSENT" || (!l.TimeIn.HasValue && !l.TimeOut.HasValue));
             AbsencesThisMonth += Math.Max(0, totalWorkingDays - currentMonthLogs.Count);
 
-           
             foreach (var day in Enumerable.Range(1, DateTime.DaysInMonth(now.Year, now.Month)))
             {
                 var date = new DateTime(now.Year, now.Month, day);
@@ -105,7 +101,6 @@ namespace DailyLogSystem.Pages
 
             foreach (var l in currentMonthLogs)
             {
-               
                 if (l.Status == "ABSENT") continue;
 
                 if (l.TimeIn.HasValue && l.TimeOut.HasValue)
@@ -131,7 +126,6 @@ namespace DailyLogSystem.Pages
                 ? Math.Round(((double)TotalWorkedDays / totalWorkingDays) * 100, 2)
                 : 0;
 
-          
             PunctualityJson = JsonSerializer.Serialize(new
             {
                 labels = new[] { "Worked Days", "Absences" },
@@ -157,7 +151,20 @@ namespace DailyLogSystem.Pages
                     }
                 }
             });
+
+            // FIXED: This block must be INSIDE OnGetAsync()
+            Logs = Logs.Select(l =>
+            {
+                if (l.Status == "ABSENT")
+                {
+                    l.TimeIn = null;
+                    l.TimeOut = null;
+                    l.TotalHours = "0h 0m";
+                }
+                return l;
+            }).ToList();
         }
+        // <-- OnGetAsync now ends correctly HERE ✔✔✔
 
         public async Task<IActionResult> OnPostExportPDFAsync()
         {

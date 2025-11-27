@@ -9,6 +9,7 @@
       "DailyLogSystem/1.0.0": {
         "dependencies": {
           "EPPlus": "8.3.0",
+          "HeroSD-JWT": "1.1.7",
           "MongoDB.Driver": "3.5.0",
           "Newtonsoft.Json.Bson": "1.0.3",
           "QuestPDF": "2025.7.4",
@@ -54,11 +55,30 @@
           }
         }
       },
+      "HeroSD-JWT/1.1.7": {
+        "dependencies": {
+          "Microsoft.Bcl.Memory": "10.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/HeroSdJwt.dll": {
+            "assemblyVersion": "1.1.7.0",
+            "fileVersion": "1.1.7.0"
+          }
+        }
+      },
       "Markdig/0.42.0": {
         "runtime": {
           "lib/net8.0/Markdig.dll": {
             "assemblyVersion": "0.42.0.0",
             "fileVersion": "0.42.0.0"
+          }
+        }
+      },
+      "Microsoft.Bcl.Memory/10.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Bcl.Memory.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
           }
         }
       },
@@ -445,12 +465,26 @@
       "path": "epplus.interfaces/8.1.0",
       "hashPath": "epplus.interfaces.8.1.0.nupkg.sha512"
     },
+    "HeroSD-JWT/1.1.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-l9SD6zzR1cRDaNP5YD5zwwf8pHpsmEBd4X34XS2xHa/tBvtejhiDmVSCSXeI94oYuoYIk7hCYb3SH4GUyurs3Q==",
+      "path": "herosd-jwt/1.1.7",
+      "hashPath": "herosd-jwt.1.1.7.nupkg.sha512"
+    },
     "Markdig/0.42.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-tINdftVfbTujqfPXrQOSl9/6XCS2Y4Zwz+i7UPBgxRNnDtI1CjyQ5UA/5sKoSOmfECyWkTztY/vbcc/u1DA8nA==",
       "path": "markdig/0.42.0",
       "hashPath": "markdig.0.42.0.nupkg.sha512"
+    },
+    "Microsoft.Bcl.Memory/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-a5PdIQh+01OrOViDfJA0zfo2ty5ruSxpR+4ZOkY1nGr0ybvm3XKxckxKp0BVR9ZtVIauQscgHABFysUJYOqnsg==",
+      "path": "microsoft.bcl.memory/10.0.0",
+      "hashPath": "microsoft.bcl.memory.10.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/8.0.0": {
       "type": "package",

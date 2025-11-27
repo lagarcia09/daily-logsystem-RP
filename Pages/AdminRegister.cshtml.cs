@@ -4,9 +4,11 @@ using DailyLogSystem.Models;
 using DailyLogSystem.Services;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DailyLogSystem.Pages
 {
+    [AllowAnonymous]
     public class AdminRegisterModel : PageModel
     {
         private readonly MongoDbService _mongoService;
@@ -28,28 +30,25 @@ namespace DailyLogSystem.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            // ✅ Generate unique Admin ID (format: ADM-YY-XXXXX)
+            // Generate Admin ID (ADM-YY-XXXXX)
             string year = DateTime.Now.Year.ToString().Substring(2, 2);
             string randomDigits = new Random().Next(10000, 99999).ToString();
             Input.AdminId = $"ADM-{year}-{randomDigits}";
 
-            // ✅ Normalize input
+            // Clean input
             Input.Email = Input.Email.Trim().ToLower();
             Input.Password = Input.Password.Trim();
             Input.FullName = Input.FullName.Trim();
 
-            // ✅ Save to MongoDB (Admins collection)
+            // Save to MongoDB
             await _mongoService.CreateAdminAsync(Input);
 
-            // ✅ Send confirmation email
+            // Email notification
             var subject = "Admin Registration Successful - Daily Log System";
             var body = $@"
                 <h3>Hi {Input.FullName},</h3>
-                <p>You have been successfully registered as an <strong>Administrator</strong> in the Daily Log System.</p>
-                <p>Your Admin ID is: <strong>{Input.AdminId}</strong></p>
-                <p>You can now log in using this Admin ID and your password.</p>
-                <br/>
-                <p>– Daily Log System Team</p>";
+                <p>You have been successfully registered as an <strong>Administrator</strong>.</p>
+                <p>Your Admin ID: <strong>{Input.AdminId}</strong></p>";
 
             _emailService.SendEmail(Input.Email, subject, body);
 

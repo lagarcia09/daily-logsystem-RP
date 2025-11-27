@@ -3,11 +3,12 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace DailyLogSystem.Models
 {
+    [BsonIgnoreExtraElements]
     public class Employee
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string? Id { get; set; }   // MongoDB auto-generated
 
         // Personal Information
         public string FullName { get; set; } = string.Empty;
@@ -24,7 +25,8 @@ namespace DailyLogSystem.Models
         // Login Credential
         public string Password { get; set; } = string.Empty;
 
-        public string Role { get; set; } = "Staff";
         public bool IsActive { get; set; } = true;
+
+
     }
 }

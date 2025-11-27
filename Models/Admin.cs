@@ -7,13 +7,13 @@ namespace DailyLogSystem.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string? Id { get; set; }   // MongoDB generated, can be null in C#
 
         [BsonElement("AdminId")]
         public string AdminId { get; set; } = string.Empty;
 
         [BsonElement("Username")]
-        public string Username { get; set; } = string.Empty;  // ✅ Add this
+        public string Username { get; set; } = string.Empty;
 
         [BsonElement("Password")]
         public string Password { get; set; } = string.Empty;

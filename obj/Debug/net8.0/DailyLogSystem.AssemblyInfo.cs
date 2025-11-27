@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DailyLogSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50168b16d9e2d56e179027d2e31c735d8c165781")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+060afccb88ddfbf32374faaea2cb3b0f6de7b797")]
 [assembly: System.Reflection.AssemblyProductAttribute("DailyLogSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DailyLogSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

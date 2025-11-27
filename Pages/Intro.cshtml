@@ -1,0 +1,49 @@
+﻿@page
+@model DailyLogSystem.Pages.IntroModel
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<main class="min-h-screen flex items-center justify-center font-sans relative" style="background-color: #BBC863;">
+
+    <!-- FIXED TOP-LEFT LOGO -->
+    <div class="absolute top-6 left-6 flex items-center gap-3">
+        <img src="/images/WFH DLS LOGO.png"
+             alt="Logo"
+             class="w-20 h-20 object-contain drop-shadow-lg" />
+        <span class="text-3xl font-bold text-[#3E5F44]">WFH DailyLog</span>
+    </div>
+
+    <div class="flex bg-[#E8FFD7]/90 rounded-2xl shadow-2xl overflow-hidden border border-[#5E936C] w-full max-w-5xl">
+
+        <!-- Left Panel: Welcome Message -->
+        <div class="w-full md:w-1/2 p-10 flex flex-col justify-center items-center text-center">
+            <h1 class="text-5xl font-extrabold text-[#3E5F44] leading-tight mb-4">
+                WFH DailyLog System
+            </h1>
+
+            <p class="text-gray-700 text-lg mb-8 max-w-md">
+                Welcome to your Work-From-Home attendance tracker. Monitor your time logs, stay compliant, and boost productivity — all in one place.
+            </p>
+
+            <a href="/Index"
+               class="px-6 py-3 bg-[#3E5F44] hover:bg-[#2A4230] text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                 Get Started
+            </a>
+        </div>
+
+        <!-- Right Panel: Background Image -->
+        <div class="hidden md:flex w-3/5 relative overflow-hidden">
+            <img src="/images/bg-main.gif"
+                 class="absolute inset-0 w-[120%] h-full object-cover object-[100%_center] rounded-r-2xl" />
+            <div class="absolute inset-0 bg-black/10"></div>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-white text-center p-10 backdrop-blur-[1px] translate-x-6">
+                <h2 class="text-3xl font-bold mb-3 drop-shadow-lg">Remote Ready</h2>
+                <p class="max-w-md text-lg drop-shadow-md">Track your attendance from anywhere — securely and efficiently.</p>
+            </div>
+        </div>
+
+    </div>
+</main>

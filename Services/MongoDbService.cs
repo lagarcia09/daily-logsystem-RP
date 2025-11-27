@@ -22,17 +22,23 @@ namespace DailyLogSystem.Services
         private readonly IMongoCollection<Employee> _employees;
         private readonly IMongoCollection<TodayRecord> _attendance;
         private readonly IMongoCollection<Admin> _admins;
+        private readonly IMongoDatabase _database;
 
+
+        // ⭐ FIXED: this is the ONLY constructor
         public MongoDbService(IOptions<MongoDbSettings> options)
         {
             var settings = options.Value;
             var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
 
-            _employees = database.GetCollection<Employee>(settings.EmployeeCollectionName);
-            _attendance = database.GetCollection<TodayRecord>(settings.AttendanceCollectionName);
-            _admins = database.GetCollection<Admin>(settings.AdminCollectionName);
+            _database = client.GetDatabase(settings.DatabaseName); // <-- initialize _database first
+
+            _employees = _database.GetCollection<Employee>(settings.EmployeeCollectionName);
+            _attendance = _database.GetCollection<TodayRecord>(settings.AttendanceCollectionName);
+            _admins = _database.GetCollection<Admin>(settings.AdminCollectionName);
         }
+
+
 
         // ============================================================
         // EMPLOYEE METHODS
@@ -42,13 +48,11 @@ namespace DailyLogSystem.Services
             return await _employees.Find(_ => true).ToListAsync();
         }
 
-        public async Task AddEmployeeAsync(Employee emp)
+        public async Task AddEmployeeAsync(Employee employee)
         {
-            if (string.IsNullOrWhiteSpace(emp.EmployeeId))
-                emp.EmployeeId = Guid.NewGuid().ToString("N");
-
-            await _employees.InsertOneAsync(emp);
+            await _employees.InsertOneAsync(employee);
         }
+
 
         public async Task<Employee?> GetByEmailAsync(string email) =>
             await _employees.Find(e => e.Email == email).FirstOrDefaultAsync();
@@ -83,6 +87,7 @@ namespace DailyLogSystem.Services
             return emp;
         }
 
+
         // ============================================================
         // ADMIN METHODS
         // ============================================================
@@ -100,6 +105,7 @@ namespace DailyLogSystem.Services
         public async Task<Admin?> GetAdminByIdAsync(string adminId) =>
             await _admins.Find(a => a.AdminId == adminId).FirstOrDefaultAsync();
 
+
         // ============================================================
         // ATTENDANCE METHODS
         // ============================================================
@@ -112,21 +118,13 @@ namespace DailyLogSystem.Services
             {
                 var emp = employees.FirstOrDefault(e => e.EmployeeId == log.EmployeeId);
 
-                if (emp != null)
-                {
-                    // Always sync employee name
-                    log.FullName = emp.FullName;
-                    log.EmployeeName = emp.FullName;
-                }
-                else
-                {
-                    log.FullName = "Unknown";
-                }
+                log.FullName = emp?.FullName ?? "Unknown";
+               
+
             }
 
             return logs;
         }
-
 
         public async Task<List<TodayRecord>> GetAllRecordsByEmployeeAsync(string employeeId)
         {
@@ -198,11 +196,67 @@ namespace DailyLogSystem.Services
             }
         }
 
+
+        public async Task<byte[]> GenerateExcelReportAsync(List<TodayRecord> logs)
+        {
+            using var package = new OfficeOpenXml.ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Attendance Report");
+
+            // Headers
+            ws.Cells[1, 1].Value = "Employee ID";
+            ws.Cells[1, 2].Value = "Name";
+            ws.Cells[1, 3].Value = "Date";
+            ws.Cells[1, 4].Value = "Time In";
+            ws.Cells[1, 5].Value = "Time Out";
+            ws.Cells[1, 6].Value = "Status";
+            ws.Cells[1, 7].Value = "Total Hours";
+            ws.Cells[1, 8].Value = "Overtime";
+            ws.Cells[1, 9].Value = "Has Photo";
+
+            int row = 2;
+
+            foreach (var log in logs)
+            {
+                ws.Cells[row, 1].Value = log.EmployeeId;
+                ws.Cells[row, 2].Value = log.FullName;
+                ws.Cells[row, 3].Value = log.Date.ToString("yyyy-MM-dd");
+
+                ws.Cells[row, 4].Value = log.TimeIn?.ToString("hh:mm tt") ?? "";
+                ws.Cells[row, 5].Value = log.TimeOut?.ToString("hh:mm tt") ?? "";
+
+                ws.Cells[row, 6].Value = log.Status;
+                ws.Cells[row, 7].Value = log.TotalHours;
+                ws.Cells[row, 8].Value = log.OvertimeHours;
+
+
+                row++;
+            }
+
+            ws.Cells.AutoFitColumns();
+
+            return await Task.FromResult(package.GetAsByteArray());
+        }
+
+
+        public async Task UpdateRecordAsync(TodayRecord updated)
+        {
+            var filter = Builders<TodayRecord>.Filter.Eq(r => r.Id, updated.Id);
+
+            var update = Builders<TodayRecord>.Update
+                .Set(r => r.TimeIn, updated.TimeIn)
+                .Set(r => r.TimeOut, updated.TimeOut)
+                .Set(r => r.TotalHours, updated.TotalHours)
+                .Set(r => r.Status, updated.Status)
+                .Set(r => r.OvertimeHours, updated.OvertimeHours);
+
+            await _attendance.UpdateOneAsync(filter, update);
+        }
+
         public async Task UpdateTodayRecordStatusAsync(string employeeId, TodayRecord updatedRecord)
         {
             var filter = Builders<TodayRecord>.Filter.And(
                 Builders<TodayRecord>.Filter.Eq(r => r.EmployeeId, employeeId),
-                Builders<TodayRecord>.Filter.Eq(r => r.Date, updatedRecord.Date)
+                Builders<TodayRecord>.Filter.Eq(r => r.Date, updatedRecord.Date.Date)
             );
 
             var update = Builders<TodayRecord>.Update
@@ -216,65 +270,54 @@ namespace DailyLogSystem.Services
             await _attendance.UpdateOneAsync(filter, update);
         }
 
-        public async Task OverrideAttendanceLogAsync(string logId)
+        public async Task<TodayRecord?> GetRecordByIdAsync(string id)
         {
-            var filter = Builders<TodayRecord>.Filter.Eq(r => r.Id, logId);
-            var update = Builders<TodayRecord>.Update.Set(r => r.Status, "Corrected");
+            var filter = Builders<TodayRecord>.Filter.Eq(r => r.Id, id);
+            return await _attendance.Find(filter).FirstOrDefaultAsync();
+        }
+
+        public async Task OverrideAttendanceLogAsync(string id)
+        {
+            var filter = Builders<TodayRecord>.Filter.Eq(r => r.Id, id);
+
+            var update = Builders<TodayRecord>.Update
+                .Set(r => r.TimeIn, null)
+                .Set(r => r.TimeOut, null)
+                .Set(r => r.TotalHours, "0")
+                .Set(r => r.OvertimeHours, "0")
+                .Set(r => r.UndertimeHours, "0")
+                .Set(r => r.Status, "RESET BY ADMIN");
+
             await _attendance.UpdateOneAsync(filter, update);
         }
 
-        public async Task<TodayRecord?> GetRecordByIdAsync(string id)
+        public async Task UpdateProfileAsync(string employeeId, string fullName, string contact, string address)
         {
-            if (string.IsNullOrWhiteSpace(id)) return null;
+            var update = Builders<Employee>.Update
+                .Set(x => x.FullName, fullName)
+                .Set(x => x.ContactNumber, contact)
+                .Set(x => x.Address, address);
 
-            return await _attendance.Find(r => r.Id == id).FirstOrDefaultAsync();
+            await _employees.UpdateOneAsync(x => x.EmployeeId == employeeId, update);
         }
 
-        public async Task UpdateRecordAsync(TodayRecord record)
+        public async Task<Employee?> GetUserByEmailAsync(string email)
         {
-            if (record == null || string.IsNullOrWhiteSpace(record.Id)) return;
-
-            await _attendance.ReplaceOneAsync(r => r.Id == record.Id, record);
+            return await _employees
+                .Find(e => e.Email == email)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<byte[]> GenerateExcelReportAsync(List<TodayRecord> logs)
+        public async Task UpdateUserAsync(Employee updatedUser)
         {
-            using var package = new OfficeOpenXml.ExcelPackage();
-            var worksheet = package.Workbook.Worksheets.Add("Attendance Report");
-
-            // Header row
-            worksheet.Cells[1, 1].Value = "Employee Name";
-            worksheet.Cells[1, 2].Value = "Employee ID";
-            worksheet.Cells[1, 3].Value = "Date";
-            worksheet.Cells[1, 4].Value = "Status";
-            worksheet.Cells[1, 5].Value = "Time In";
-            worksheet.Cells[1, 6].Value = "Time Out";
-            worksheet.Cells[1, 7].Value = "Total Hours";
-
-            int row = 2;
-
-            // Get all employees to match names
-            var employees = await GetAllEmployeesAsync();
-
-            foreach (var log in logs)
-            {
-                var employee = employees.FirstOrDefault(e => e.EmployeeId == log.EmployeeId);
-
-                worksheet.Cells[row, 1].Value = employee?.FullName ?? "Unknown";
-                worksheet.Cells[row, 2].Value = log.EmployeeId;
-                worksheet.Cells[row, 3].Value = log.Date.ToString("yyyy-MM-dd");
-                worksheet.Cells[row, 4].Value = log.Status ?? "";
-                worksheet.Cells[row, 5].Value = log.TimeIn?.ToString("hh:mm tt") ?? "";
-                worksheet.Cells[row, 6].Value = log.TimeOut?.ToString("hh:mm tt") ?? "";
-                worksheet.Cells[row, 7].Value = log.TotalHours ?? "";
-
-                row++;
-            }
-
-            worksheet.Cells.AutoFitColumns();
-
-            return package.GetAsByteArray();
+            await _employees.ReplaceOneAsync(
+                e => e.Id == updatedUser.Id,
+                updatedUser
+            );
         }
 
     }
+
+
 }
+

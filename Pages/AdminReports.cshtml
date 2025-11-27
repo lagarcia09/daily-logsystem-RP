@@ -2,26 +2,199 @@
 @model DailyLogSystem.Pages.AdminReportsModel
 @{
     ViewData["Title"] = "Reports & Analytics";
-    Layout = "AdminLayout";
+    
 }
 
-<div class="max-w-6xl mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-4" style="color:#5D866C;">Reports & Analytics</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-    <form method="post" asp-page-handler="ExportMonthly">
-        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg" style="background:#5D866C; color:white;">
-            📄 Export Monthly Report (PDF)
-        </button>
-    </form>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Admin</title>
 
-    <form method="post" asp-page-handler="ExportExcel">
-        <button type="submit" class="px-6 py-3 rounded-xl font-semibold shadow-lg mt-4" style="background:#C2A68C; color:white;">
-            📊 Export Excel
-        </button>
-    </form>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-        <canvas id="attendancePie"></canvas>
-        <canvas id="hoursBar"></canvas>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+    </style>
+
+    <script>
+        function logoutUser() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "/Logout";
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen" style="background-color:#5D866C;">
+
+    <!-- TOP NAV / LAYOUT -->
+    <nav style="background-color: #C2A68C; border-bottom: 2px solid #E6D8C3;"
+         class="shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+
+                <img src="/images/WFH DLS LOGO.png"
+                     alt="System Logo"
+                     class="w-24 h-24 object-contain" />
+
+                <div class="text-3xl font-bold" style="color:#5D866C;">
+                    Admin Dashboard
+                </div>
+
+                <div class="flex space-x-2">
+
+                    <a asp-page="/AdminOverview"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#5D866C; color:#F5F5F0; border:2px solid #C2A68C;">
+                        📊 Overview
+                    </a>
+
+                    <a asp-page="/AdminEmployees"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        👥 Employees
+                    </a>
+
+                    <a asp-page="/AdminAttendance"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🕒 Attendance
+                    </a>
+
+                    <a asp-page="/AdminReports"
+                       class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                       style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        📄 Reports
+                    </a>
+
+                    <button onclick="logoutUser()"
+                            class="px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                            style="background-color:#E6D8C3; color:#5D866C; border:2px solid #C2A68C;">
+                        🚪 Logout
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <div class="max-w-7xl mx-auto p-8">
+
+        <h2 class="text-3xl font-bold mb-6 text-[#5D866C]">Reports & Analytics</h2>
+
+        <!-- FILTERS -->
+        <form method="get" class="grid md:grid-cols-6 grid-cols-1 gap-4 mb-6">
+            <input name="Search" value="@Model.Search" placeholder="Search employee..." class="border rounded p-2" />
+
+            <select name="Department" class="border rounded p-2">
+                <option value="">All Departments</option>
+                @foreach (var d in Model.Employees
+                .Where(x => !string.IsNullOrWhiteSpace(x.Department))
+                .Select(x => x.Department)
+                .Distinct()
+                .OrderBy(x => x))
+                {
+                    <option value="@d" selected="@(Model.Department == d)">@d</option>
+                }
+            </select>
+
+            <select name="Position" class="border rounded p-2">
+                <option value="">All Roles</option>
+                @foreach (var r in Model.Employees
+                .Where(x => !string.IsNullOrWhiteSpace(x.Position))
+                .Select(x => x.Position)
+                .Distinct()
+                .OrderBy(x => x))
+                {
+                    <option value="@r" selected="@(Model.Role == r)">@r</option>
+                }
+            </select>
+
+            <input type="date" name="DateFrom" value="@(Model.DateFrom?.ToString("yyyy-MM-dd"))" class="border rounded p-2" />
+            <input type="date" name="DateTo" value="@(Model.DateTo?.ToString("yyyy-MM-dd"))" class="border rounded p-2" />
+
+            <button class="p-2 rounded font-semibold transition-all"
+                    style="background-color:#C2A68C; color:#5D866C; border:2px solid #5D866C;">
+                🔍 Filter
+            </button>
+        </form>
+
+        <!-- METRICS -->
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+            <div class="p-4 bg-white shadow rounded text-center">
+                <h3 class="text-lg font-semibold">Total Employees</h3>
+                <p class="text-3xl font-bold">@Model.TotalEmployees</p>
+            </div>
+
+            <div class="p-4 bg-white shadow rounded text-center">
+                <h3 class="text-lg font-semibold">Attendance Rate</h3>
+                <p class="text-3xl font-bold">@Model.AttendanceRateString</p>
+            </div>
+
+            <div class="p-4 bg-white shadow rounded text-center">
+                <h3 class="text-lg font-semibold">Total Worked Hours</h3>
+                <p class="text-3xl font-bold">@Model.TotalWorkedHoursString</p>
+            </div>
+
+            <div class="p-4 bg-white shadow rounded text-center">
+                <h3 class="text-lg font-semibold">Overtime Hours</h3>
+                <p class="text-3xl font-bold">@Model.OvertimeHoursString</p>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="overflow-x-auto bg-white shadow rounded">
+            <table class="min-w-full border-collapse">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="p-3 border">Employee</th>
+                        <th class="p-3 border">Date</th>
+                        <th class="p-3 border">Time In</th>
+                        <th class="p-3 border">Time Out</th>
+                        <th class="p-3 border">Hours</th>
+                        <th class="p-3 border">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var r in Model.AttendanceLogs)
+                    {
+                        <tr class="border-b hover:bg-gray-100">
+                            <td class="p-3">@r.FullName</td>
+                            <td class="p-3">@r.Date.ToString("MMM dd, yyyy")</td>
+                            <td class="p-3">@r.TimeIn</td>
+                            <td class="p-3">@r.TimeOut</td>
+                            <td class="p-3">@r.TotalHours</td>
+                            <td class="p-3">@r.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- EXPORT BUTTONS -->
+        <div class="flex gap-4 mt-6">
+            <form method="post" asp-page-handler="ExportMonthly">
+                <button class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    📄 Export Monthly PDF
+                </button>
+            </form>
+
+            <form method="post" asp-page-handler="ExportExcel">
+                <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    📊 Export Excel
+                </button>
+            </form>
+        </div>
+
     </div>
-</div>
+
+</body>
+
+</html>

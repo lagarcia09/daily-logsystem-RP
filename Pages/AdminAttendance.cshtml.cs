@@ -23,8 +23,14 @@ namespace DailyLogSystem.Pages
             _mongoService = mongoService;
         }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var adminId = HttpContext.Session.GetString("AdminId");
+            if (string.IsNullOrEmpty(adminId))
+            {
+                return RedirectToPage("/Index");
+            }
+
             AttendanceLogs = await _mongoService.GetAllRecordsAsync();
 
             // Ensure DisplayName fallback
@@ -42,9 +48,14 @@ namespace DailyLogSystem.Pages
 
             if (!string.IsNullOrWhiteSpace(StatusFilter))
             {
-                AttendanceLogs = AttendanceLogs.Where(l => (l.Status ?? "") == StatusFilter).ToList();
+                AttendanceLogs = AttendanceLogs.Where(l =>
+                    (l.Status ?? "") == StatusFilter
+                ).ToList();
             }
+
+            return Page();
         }
+
 
         // Edit attendance handler
         public async Task<IActionResult> OnPostEditAttendanceAsync(string id, string date, string timeIn, string timeOut, string status, string overtime)
